@@ -42,7 +42,7 @@ The project focuses on interactive game design and visual feedback, allowing use
 
 - Full Column Detection
   - Check the top row of the column before placing a chip
-    - If full, block the move and ignore the click
+  - If full, block the move and ignore the click
 
 - Turn Indicator
   - Use text rendering to to display whose turn it is
