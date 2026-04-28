@@ -64,6 +64,18 @@ class Board:
                                     row * CELL_SIZE + CELL_SIZE // 2 + 100),
                                    CELL_SIZE // 2 - 5)
 
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.grid[row][col] == 1:
+                    pygame.draw.circle(screen, RED,
+                                       (col * CELL_SIZE + CELL_SIZE // 2,
+                                        row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                                       CELL_SIZE // 2 - 5)
+                elif self.grid[row][col] == 2:
+                    pygame.draw.circle(screen, YELLOW,
+                                       (col * CELL_SIZE + CELL_SIZE // 2,
+                                        row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                                       CELL_SIZE // 2 - 5)
 
 
 
