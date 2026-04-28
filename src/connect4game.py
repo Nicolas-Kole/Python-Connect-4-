@@ -90,4 +90,30 @@ class Game:
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1 
 
+    def cpu_move(self):
+        if self.cpu_difficulty == "easy":
+            return random.randint(0, COLS - 1)
+
+        elif self.cpu_difficulty == "medium":
+            valid = [c for c in range(COLS) if not self.board.is_full(c)]
+            return random.choice(valid)
+
+        elif self.cpu_difficulty == "hard":
+            for c in [3,2,4,1,5,0,6]:
+                if not self.board.is_full(c):
+                    return c
+    
+    def update(self):
+        if self.mode == "cpu" and self.turn == 2 and not self.game_over:
+            pygame.time.delay(300)
+            col = self.cpu_move()
+        if not self.board.is_full(col):
+                self.board.drop_piece(col, 2)
+
+                if self.board.check_win(2):
+                    self.game_over = True
+
+                self.switch_turn()
+
+  
 
