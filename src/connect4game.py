@@ -18,4 +18,12 @@ class Board:
    
     def __init__(self):
         self.grid = [[0 for _ in range(COLS)] for _ in range(ROWS)]
+
+    def drop_piece(self, col, player):
+        for row in reversed(range(ROWS)):
+            if self.grid[row][col] == 0:
+                self.grid[row][col] = player
+                return row
+        return None
+
   
