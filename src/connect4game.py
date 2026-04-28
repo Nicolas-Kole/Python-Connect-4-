@@ -13,3 +13,9 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
+
+class Board:
+   
+    def __init__(self):
+        self.grid = [[0 for _ in range(COLS)] for _ in range(ROWS)]
+  
