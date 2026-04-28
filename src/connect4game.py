@@ -52,3 +52,19 @@ class Board:
             
         return False
 
+    
+    def draw(self, screen, font):
+        screen.fill(BLACK)
+        for row in range(ROWS):
+            for col in range(COLS):
+                pygame.draw.rect(screen, BLUE,
+                                 (col * CELL_SIZE, row * CELL_SIZE + 100, CELL_SIZE, CELL_SIZE))
+                pygame.draw.circle(screen, BLACK,
+                                   (col * CELL_SIZE + CELL_SIZE // 2,
+                                    row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                                   CELL_SIZE // 2 - 5)
+
+
+
+
+
