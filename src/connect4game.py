@@ -26,4 +26,7 @@ class Board:
                 return row
         return None
 
+    def is_full(self, col):
+        return self.grid[0][col] !=0
+
   
