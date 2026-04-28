@@ -53,6 +53,7 @@ class Board:
         return False
 
     
+    
     def draw(self, screen, font):
         screen.fill(BLACK)
         for row in range(ROWS):
@@ -77,6 +78,16 @@ class Board:
                                         row * CELL_SIZE + CELL_SIZE // 2 + 100),
                                        CELL_SIZE // 2 - 5)
 
+class Game:
+    def __init__(self):
+        self.board = Board()
+        self.turn = 1  
+        self.selected_col = 0
+        self.game_over = False
+        self.mode = "pvp" 
+        self.cpu_difficulty = "easy"
 
+    def switch_turn(self):
+        self.turn = 2 if self.turn == 1 else 1 
 
 
