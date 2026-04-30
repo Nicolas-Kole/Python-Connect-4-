@@ -58,9 +58,9 @@ class Board:
         return False
 
     
-    
-    def draw(self, screen, font):
+    def draw(self, screen):
         screen.fill(BLACK)
+
         for row in range(ROWS):
             for col in range(COLS):
                 pygame.draw.rect(screen, BLUE,
@@ -107,6 +107,7 @@ class Game:
             for c in [3,2,4,1,5,0,6]:
                 if not self.board.is_full(c):
                     return c
+        return 0
     
     def update(self):
         if self.mode == "cpu" and self.turn == 2 and not self.game_over:
@@ -173,8 +174,8 @@ def main():
 
                         game.switch_turn()
 
-                if event.key == pygame.K_r:
-                    game = Game() 
+                    if event.key == pygame.K_r:
+                        game = Game() 
 
                 if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over:
                     x = event.pos[0]
@@ -188,15 +189,15 @@ def main():
                             
                         game.switch_turn()
 
-                game.update ()
+    game.update ()
 
-                screen.fill(BLACK)
-                game.board.draw(screen)
-                game.draw_ui(screen, font)
+    screen.fill(BLACK)
+    game.board.draw(screen)
+    game.draw_ui(screen, font)
 
-                pygame.display.flip()
+    pygame.display.flip()
 
-    pygame.quit()
+pygame.quit()
 
 
 if __name__ == "__main__":
