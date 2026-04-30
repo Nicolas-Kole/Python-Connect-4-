@@ -112,7 +112,8 @@ class Game:
         if self.mode == "cpu" and self.turn == 2 and not self.game_over:
             pygame.time.delay(300)
             col = self.cpu_move()
-        if not self.board.is_full(col):
+            
+            if not self.board.is_full(col):
                 self.board.drop_piece(col, 2)
 
                 if self.board.check_win(2):
