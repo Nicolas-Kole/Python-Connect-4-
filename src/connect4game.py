@@ -129,4 +129,10 @@ class Game:
             (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 60)
         ])
 
+        if not self.game_over:
+            text = f"Player {self.turn}'s Turn"
+        else:
+            text = f"Player {2 if self.turn == 1 else 1} Wins!"
+        label = font.render(text, True, WHITE)
+        screen.blit(label, (10, 10))
 
