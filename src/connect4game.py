@@ -174,5 +174,18 @@ def main():
                         game.switch_turn()
 
                 if event.key == pygame.K_r:
-                    game = Game()  # restart
+                    game = Game() 
+
+                if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over:
+                    x = event.pos[0]
+                    col = x // CELL_SIZE
+
+                if not game.board.is_full(col):
+                    game.board.drop_piece(col, game.turn)
+
+                    if game.board.check_win(game.turn):
+                        game.game_over = True
+                    game.switch_turn()
+
+                    
 
