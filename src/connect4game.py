@@ -187,5 +187,16 @@ def main():
                         game.game_over = True
                     game.switch_turn()
 
-                    
+                game.update ()
+
+                game.board.draw(screen)
+                game.draw_ui(screen, font)
+
+                pygame.display.flip()
+
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()
 
