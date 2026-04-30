@@ -136,3 +136,43 @@ class Game:
         label = font.render(text, True, WHITE)
         screen.blit(label, (10, 10))
 
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Connect 4")
+
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont(None, 36)
+
+    game = Game()
+
+    running = True
+    while running:
+        clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+ 
+        if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_LEFT:
+                    game.selected_col = max(0, game.selected_col - 1)
+
+                if event.key == pygame.K_RIGHT:
+                    game.selected_col = min(COLS - 1, game.selected_col + 1)
+
+                if event.key == pygame.K_RETURN and not game.game_over:
+                    col = game.selected_col
+
+                    if not game.board.is_full(col):
+                        game.board.drop_piece(col, game.turn)
+
+                        if game.board.check_win(game.turn):
+                            game.game_over = True
+
+                        game.switch_turn()
+
+                if event.key == pygame.K_r:
+                    game = Game()  # restart
+
