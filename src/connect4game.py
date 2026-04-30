@@ -163,8 +163,8 @@ def main():
                 if event.key == pygame.K_RIGHT:
                     game.selected_col = min(COLS - 1, game.selected_col + 1)
 
-                if event.key == pygame.K_RETURN and not game.game_over:
-                    col = game.selected_col
+                    if event.key == pygame.K_RETURN and not game.game_over:
+                        col = game.selected_col
 
                     if not game.board.is_full(col):
                         game.board.drop_piece(col, game.turn)
@@ -177,11 +177,12 @@ def main():
                 if event.key == pygame.K_r:
                     game = Game()
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mx, my = event.pos
+            if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over:
+                col = event.pos[0] // CELL_SIZE
 
 
             if not game.board.is_full(col):
+                        
                         game.board.drop_piece(col, game.turn)
 
                         if game.board.check_win(game.turn):
@@ -189,7 +190,7 @@ def main():
                             
                         game.switch_turn()
 
-            game.update ()
+            game.update()
 
             screen.fill(BLACK)
             game.board.draw(screen)
