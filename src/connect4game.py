@@ -29,26 +29,32 @@ class Board:
     def is_full(self, col):
         return self.grid[0][col] !=0
 
-    def check_win(self,player):
+    def check_win(self, player):
+    
+        # horizontal 
         for r in range(ROWS):
-            for c in range(COLS -3):
-                   if all(self.grid[r][c+i] == player for i in range(4)):
+            for c in range(COLS - 3):
+                if all(self.grid[r][c+i] == player for i in range(4)):
                     return True
 
-        for r in range(3, ROWS):
-              for c in range(COLS - 3):
-                if all(self.grid[r-i][c+i] == player for i in range(4)):
+        # vertical
+        for c in range(COLS):
+            for r in range(ROWS - 3):
+                if all(self.grid[r+i][c] == player for i in range(4)):
                     return True
 
-        for r in range(3, ROWS):
-              for c in range(COLS - 3):
-                if all(self.grid[r-i][c+i] == player for i in range(4)):
-                    return True
-
+        # diagonal \
         for r in range(ROWS - 3):
-              for c in range(COLS - 3):
+            for c in range(COLS - 3):
                 if all(self.grid[r+i][c+i] == player for i in range(4)):
                     return True
+
+        # diagonal /
+        for r in range(3, ROWS):
+            for c in range(COLS - 3):
+                if all(self.grid[r-i][c+i] == player for i in range(4)):
+                    return True
+
             
         return False
 
