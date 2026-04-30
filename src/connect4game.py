@@ -154,8 +154,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
  
-        if event.type == pygame.KEYDOWN:
-
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     game.selected_col = max(0, game.selected_col - 1)
 
@@ -180,15 +179,17 @@ def main():
                     x = event.pos[0]
                     col = x // CELL_SIZE
 
-                if not game.board.is_full(col):
-                    game.board.drop_piece(col, game.turn)
+                    if not game.board.is_full(col):
+                        game.board.drop_piece(col, game.turn)
 
-                    if game.board.check_win(game.turn):
-                        game.game_over = True
-                    game.switch_turn()
+                        if game.board.check_win(game.turn):
+                            game.game_over = True
+                            
+                        game.switch_turn()
 
                 game.update ()
 
+                screen.fill(BLACK)
                 game.board.draw(screen)
                 game.draw_ui(screen, font)
 
