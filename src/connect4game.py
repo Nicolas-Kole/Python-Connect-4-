@@ -174,14 +174,14 @@ def main():
 
                         game.switch_turn()
 
-                    if event.key == pygame.K_r:
-                        game = Game() 
+                if event.key == pygame.K_r:
+                    game = Game()
 
-                if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over:
-                    x = event.pos[0]
-                    col = x // CELL_SIZE
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mx, my = event.pos
 
-                    if not game.board.is_full(col):
+
+            if not game.board.is_full(col):
                         game.board.drop_piece(col, game.turn)
 
                         if game.board.check_win(game.turn):
@@ -189,13 +189,13 @@ def main():
                             
                         game.switch_turn()
 
-    game.update ()
+            game.update ()
 
-    screen.fill(BLACK)
-    game.board.draw(screen)
-    game.draw_ui(screen, font)
+            screen.fill(BLACK)
+            game.board.draw(screen)
+            game.draw_ui(screen, font)
 
-    pygame.display.flip()
+            pygame.display.flip()
 
 pygame.quit()
 
