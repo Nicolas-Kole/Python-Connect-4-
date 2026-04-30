@@ -54,8 +54,7 @@ class Board:
             for c in range(COLS - 3):
                 if all(self.grid[r-i][c+i] == player for i in range(4)):
                     return True
-
-            
+   
         return False
 
     
@@ -121,5 +120,13 @@ class Game:
 
                 self.switch_turn()
 
-  
+    def draw_ui(self, screen, font):
+        color = RED if self.turn == 1 else YELLOW
+
+        pygame.draw.polygon(screen, color, [
+            (self.selected_col * CELL_SIZE + CELL_SIZE//2, 20),
+            (self.selected_col * CELL_SIZE + 20, 60),
+            (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 60)
+        ])
+
 
