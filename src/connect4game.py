@@ -144,19 +144,25 @@ class Board:
 
 class Game:
     def __init__(self):
+        self.reset()
+        self.state = "menu"
+
+        self.game_mode = None # classic / timed
+        self.vs_mode = None   # pvp / cpu
+        self.cpu_difficulty = None
+        
+        self.timer = 10
+        self.last_time = time.time()
+
+    def reset(self):
         self.board = Board()
         self.turn = 1
         self.selected_col = 0
         self.game_over = False
-        self.mode = "pvp"
-        self.cpu_difficulty = "easy"
-        self.state = "menu"
+
 
         self.falling = None
-
-        self.timer = 10
-        self.last_time = time.time()
-        self.mode = "classic"
+        
     
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
@@ -206,20 +212,24 @@ class Game:
             if self.timer <= 0:
                 self.start_drop(self.selected_col)
                 self.timer = 10
+    
+    def make_move(self, col):
+        if self.board.is_full(col):
+            return
 
         color = RED  if self.turn == 1 else YELLOW
 
         pygame.draw.polygon(screen, color, [
-            (self.selected_col * CELL_SIZE + CELL_SIZE // 2, 10),
-            (self.selected_col * CELL_SIZE + 20, 40),
-            (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 40)           
+            (self.selected_col * CELL_SIZE + CELL_SIZE // 2, 20),
+            (self.selected_col * CELL_SIZE + 20, 60),
+            (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 60)           
         ])
 
         text = f"Player {self.turn}" if not self.game_over else "Game Over"
         label = font.render(text, True, WHITE)
         screen.blit(label, label.get_rect(center=(WIDTH//2, 60))) 
 
-        if self.mode == "timed":
+        if self.game_mode == "timed":
             t = font.render(f"Time: {self.timer}", True, WHITE)
             screen.blit(t, (10, 10))
 
@@ -238,7 +248,8 @@ class Game:
         return 0
 
     def update(self):
-        if self.mode == "cpu" and self.turn == 2 and not self.game_over:
+        self.update_timer()
+        if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
             pygame.time.delay(300)
 
             col = self.cpu_move()
@@ -250,6 +261,7 @@ class Game:
                     self.game_over = True
 
                 self.switch_turn()
+                self.timer = 10
     
    
         valid = [c for c in range(COLS) if not self.board.is_full(c)]
