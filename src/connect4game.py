@@ -197,8 +197,6 @@ class Game:
             if self.board.check_win(1):
                 return c
             
-        return random.choice(valid)
-
     def update_timer(self):
         if self.mode == "timed" and not self.game_over:
             if time.time() - self.last_time >= 1:
@@ -318,7 +316,7 @@ def main():
 
             elif game.state == "game":
                 game.board.draw(screen, game.selected_col)
-                game.draw_ui()
+                game.draw_ui(screen, font)
                 
             if game.falling:
                 c = game.falling["col"]
