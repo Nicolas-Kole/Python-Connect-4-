@@ -224,7 +224,7 @@ class Game:
             t = font.render(f"Time: {self.timer}", True, WHITE)
             screen.blit(t, (10, 10))
 
-    def cpu_move(self):
+    
         if self.cpu_difficulty == "easy":
             return random.randint(0, COLS - 1)
 
@@ -252,7 +252,7 @@ class Game:
 
                 self.switch_turn()
     
-    def cpu_move(self):
+   
         valid = [c for c in range(COLS) if not self.board.is_full(c)]
         return random.choice(valid)
     
