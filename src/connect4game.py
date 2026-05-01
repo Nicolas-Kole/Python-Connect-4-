@@ -363,7 +363,6 @@ def main():
 
         game.update()
 
-        game.board.draw(screen, game.selected_col)
         game.draw_ui(screen, font)
 
         pygame.display.flip()
