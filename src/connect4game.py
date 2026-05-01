@@ -1,5 +1,8 @@
 import pygame
 import random 
+import time
+
+pygame.init()
 
 ROWS = 6
 COLS = 7
