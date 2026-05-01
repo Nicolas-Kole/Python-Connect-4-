@@ -160,6 +160,15 @@ class Game:
     
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
+    
+    def start_drop(self, col):
+        if self.board.is_full(col) or self.game_over:
+            return
+        
+        self.board.drop_piece(col, self.turn)
+
+        if self.board.check_win(self.turn):
+            self.game_over = True  
 
 
     def cpu_move(self):
@@ -241,7 +250,11 @@ class Game:
                     self.game_over = True
 
                 self.switch_turn()
-
+    
+    def cpu_move(self):
+        valid = [c for c in range(COLS) if not self.board.is_full(c)]
+        return random.choice(valid)
+    
     def draw_ui(self, screen, font):
         color = RED if self.turn == 1 else YELLOW
 
