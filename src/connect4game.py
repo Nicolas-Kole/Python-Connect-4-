@@ -298,6 +298,13 @@ def main():
     tutorial_btn = Button("Tutorial", 250, 270, 200, 50)
     exit_btn = Button("Exit", 250, 340, 200, 50)
 
+    pvp_btn = Button("Player vs Player", 250, 200, 200, 50)
+    cpu_btn = Button("Player vs CPU", 250, 280, 200, 50)
+
+    easy_btn = Button("Easy", 250, 200, 200, 50)
+    medium_btn = Button("Medium", 250, 270, 200, 50)
+    hard_btn = Button("Hard", 250, 340, 200, 50)
+
     running = True
     while running:
         clock.tick(60)
