@@ -280,6 +280,22 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+            if game.state == "menu":
+                 if event.type == pygame.MOUSEBUTTONDOWN:
+                     if play_btn.clicked(event.pos):
+                         game.state = "game" 
+
+            elif game.state == "game":
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                       game.selected_col = max(0, game.selected_col-1)
+                    if event.key == pygame.K_RIGHT:
+                        game.selected_col = min(COLS-1, game.selected_col+1)
+                    if event.key == pygame.K_RETURN: 
+                        game.start_drop(game.selected_col)
+
+
+
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_LEFT:
