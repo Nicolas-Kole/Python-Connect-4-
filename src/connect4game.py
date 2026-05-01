@@ -185,7 +185,16 @@ class Game:
                 return c
             
         return random.choice(valid)
-                
+
+    def update_timer(self):
+        if self.mode == "timed" and not self.game_over:
+            if time.time() - self.last_time >= 1:
+                self.timer -= 1
+                self.last_time = time.time()
+
+            if self.timer <= 0:
+                self.start_drop(self.selected_col)
+                self.timer = 10
 
     def cpu_move(self):
         if self.cpu_difficulty == "easy":
