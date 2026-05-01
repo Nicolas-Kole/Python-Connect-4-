@@ -350,17 +350,28 @@ def main():
                          game.make_move(game.selected_col)
                                
 
-
-
             if game.state == "menu":
                 screen.fill(BLACK)
                 play_btn.draw(screen)
                 tutorial_btn.draw(screen)
                 exit_btn.draw(screen)
 
-            elif game.state == "game":
-                game.board.draw(screen, game.selected_col)
-                game.draw_ui(screen, font)
+            elif game.state == "select_mode":
+                screen.fill(BLACK)
+                classic_btn.draw(screen)
+                timed_btn.draw(screen)
+
+            elif game.state == "select_vs":
+                screen.fill(BLACK)
+                pvp_btn.draw(screen)
+                cpu_btn.draw(screen)
+
+            elif game.state == "select_mode":
+                screen.fill(BLACK)
+                easy_btn.draw(screen)
+                medium_btn.draw(screen)
+                hard_btn.draw(screen)
+
                 
             if game.falling:
                 c = game.falling["col"]
