@@ -151,6 +151,12 @@ class Game:
         self.mode = "pvp"
         self.cpu_difficulty = "easy"
 
+        self.falling = None
+
+        self.timer = 10
+        self.last_time = time.time()
+        self.mode = "classic"
+    
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
 
