@@ -170,6 +170,7 @@ class Game:
         if self.board.check_win(self.turn):
             self.game_over = True  
 
+        self.switch_turn()
 
     def cpu_move(self):
         valid = [c for c in range(COLS) if not self.board.is_full(c)]
