@@ -32,15 +32,20 @@ class Button:
 
     def draw(self, screen):
         mouse = pygame.mouse.get_pos()
-        color = LIGHT_GRAY if self.rect.collidepoint(mouse) else GRAY
-        pygame.draw.rect(screen, color, self.rect)
-
+        if self.rect.collidepoint(mouse):
+            pygame.draw.rect(screen, LIGHT_GRAY, self.rect)
+            pygame.draw.rect(screen, WHITE, self.rect, 3) 
+        else:
+            pygame.draw.rect(screen, GRAY, self.rect)
+        
         label = font.render(self.text, True, WHITE)
         screen.blit(label, label.get_rect(center=self.rect.center))
+        
 
     def clicked(self, pos):
         return self.rect.collidepoint(pos)
-
+        
+        
 
 class Board:
     def __init__(self):
