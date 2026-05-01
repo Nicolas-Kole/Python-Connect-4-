@@ -317,7 +317,7 @@ def main():
                 exit_btn.draw(screen)
 
             elif game.state == "game":
-                game.board.draw(game.selected_col)
+                game.board.draw(screen, game.selected_col)
                 game.draw_ui()
                 
             if game.falling:
