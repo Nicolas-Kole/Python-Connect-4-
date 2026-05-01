@@ -150,6 +150,7 @@ class Game:
         self.game_over = False
         self.mode = "pvp"
         self.cpu_difficulty = "easy"
+        self.state = "menu"
 
         self.falling = None
 
