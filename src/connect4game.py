@@ -268,6 +268,10 @@ def main():
 
     game = Game()
 
+    play_btn = Button("Play", 250, 200, 200, 50)
+    tutorial_btn = Button("Tutorial", 250, 270, 200, 50)
+    exit_btn = Button("Exit", 250, 270, 200, 50)
+
     running = True
     while running:
         clock.tick(60)
