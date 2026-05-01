@@ -294,6 +294,16 @@ def main():
                     if event.key == pygame.K_RETURN: 
                         game.start_drop(game.selected_col)
 
+            if game.state == "game":
+                screen.fill(BLACK)
+                play_btn.draw(screen)
+                tutorial_btn.draw(screen)
+                exit_btn.draw(screen)
+
+            elif game.state == "game":
+                 game.board.draw(game.selected_col)
+                 game.draw_ui()
+                
 
 
             if event.type == pygame.KEYDOWN:
