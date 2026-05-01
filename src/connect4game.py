@@ -136,6 +136,8 @@ class Game:
         self.timer = 10
         self.last_time = time.time()
 
+        self.falling_piece = None
+
     def reset(self):
         self.board = Board()
         self.turn = 1
@@ -144,6 +146,19 @@ class Game:
 
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
+
+    def start_drop(self, col):
+       if self.board.is_full(col) or self.falling_piece:
+           return 
+       row = self.board.drop_piece(col, self.turn)
+
+       self.falling_piece = {
+           "col": col,
+           "y": 0,
+           "target_y": row * CELL_SIZE + 100,
+           "player": self.turn
+       }
+
 
     def cpu_move(self):
         valid = [c for c in range(COLS) if not self.board.is_full(c)]
