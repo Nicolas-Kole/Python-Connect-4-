@@ -243,6 +243,15 @@ def main():
     game = Game()
 
     play_btn = Button("Play", 250, 200, 200, 50)
+    classic_btn = Button("Classic", 250, 200, 200, 50)
+    timed_btn = Button("Timed", 250, 280, 200, 50)
+    pvp_btn = Button("PVP", 250, 200, 200, 50)
+    cpu_btn = Button("CPU", 250, 280, 200, 50)
+    
+    easy_btn = Button("Easy", 250, 200, 200, 50)
+    medium_btn = Button("Medium", 250, 270, 200, 50)
+    hard_btn = Button("Hard", 250, 340, 200, 50)
+
 
     running = True
     while running:
