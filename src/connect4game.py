@@ -196,6 +196,16 @@ class Game:
 
     def update(self):
         self.update_timer()
+        self.update_animation()
+
+    def draw_ui(self, screen):
+        color = RED if self.turn == 1 else YELLOW
+
+        pygame.draw.polygon(screen, color, [
+            (self.selected_col * CELL_SIZE + CELL_SIZE // 2, 70),
+            (self.selected_col * CELL_SIZE + 20, 40),
+            (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 40)
+        ])
 
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
             pygame.time.delay(250)
@@ -242,6 +252,27 @@ class Game:
 
             self.switch_turn()
             self.timer = 10
+
+            if not self.game_over:
+                 text = "CPU's Turn" if (self.vs_mode == "cpu" and self.turn == 2) else f"Player {self.turn}'s Turn"
+            else:
+                if self.winner == "draw":
+                    text = "Draw!"
+                elif self.vs_mode == "cpu" and self.winner == 2:
+                    text = "CPU Wins!"
+                else:
+                    text = f"Player {self.winner} Wins!"
+            label = font.render(text, True, WHITE)
+            screen.blit(label, label.get_rect(center=(WIDTH//2, 20)))
+
+            if self.game_mode == "timed":
+                t = font.render(f"{self.timer}", True, WHITE)
+                screen.blit(t, (10, 10))
+
+
+
+
+
 
 def main():
     game = Game()
@@ -320,6 +351,17 @@ def main():
         elif game.state == "game":
             game.board.draw(screen, game.selected_col)
             game.draw_ui(screen)
+            
+            if game.falling_piece:
+                fp =  game.falling_piece
+                color = RED if fp["player"] == 1 else YELLOW
+                pygame.draw.circle(
+                    screen,
+                    color,
+                    (fp["col"] * CELL_SIZE + CELL_SIZE // 2, int(fp["y"])),
+                    CELL_SIZE // 2 - 5
+                )
+
             game.update()
 
         pygame.display.flip()
