@@ -304,7 +304,18 @@ def main():
                 game.board.draw(game.selected_col)
                 game.draw_ui()
                 
-
+            if game.falling:
+                c = game.falling["col"]
+                y = game.falling["y"]
+                color = RED if game.falling["player"] == 1 else YELLOW
+                pygame.draw.circle(
+                    screen,
+                    color,
+                    (c * CELL_SIZE + CELL_SIZE // 2, y),
+                    CELL_SIZE // 2 - 5
+                )
+                   
+                
 
             if event.type == pygame.KEYDOWN:
 
