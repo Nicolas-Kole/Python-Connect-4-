@@ -9,13 +9,21 @@ COLS = 7
 CELL_SIZE = 80
 
 WIDTH = COLS * CELL_SIZE
-HEIGHT = (ROWS + 1) * CELL_SIZE
+HEIGHT = (ROWS + 2) * CELL_SIZE
 
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
+GRAY = (80, 80, 80)
+LIGHT_GRAY = (150, 150, 150)
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Connect 4")
+
+font = pygame.font.SysFont(None, 40)
+clock = pygame.time.Clock()
 
 class Board:
    
