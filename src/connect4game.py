@@ -245,6 +245,7 @@ def main():
     play_btn = Button("Play", 250, 200, 200, 50)
     classic_btn = Button("Classic", 250, 200, 200, 50)
     timed_btn = Button("Timed", 250, 280, 200, 50)
+    
     pvp_btn = Button("PVP", 250, 200, 200, 50)
     cpu_btn = Button("CPU", 250, 280, 200, 50)
     
@@ -252,11 +253,9 @@ def main():
     medium_btn = Button("Medium", 250, 270, 200, 50)
     hard_btn = Button("Hard", 250, 340, 200, 50)
 
-
     running = True
     while running:
         clock.tick(60)
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -264,24 +263,41 @@ def main():
             if game.state == "menu":
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if play_btn.clicked(event.pos):
-                        game.state = "game"
+                        game.state = "select_mode"
+
+            elif game.state == "select_mode":
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if classic_btn.clicked(event.pos):
                         game.game_mode = "classic"
+                        game.state = "select_vs"
+
+                    if timed_btn.clicked(event.pos):
+                        game.game_mode = "timed"
+                        game.state = "select_vs"
+
+            elif game.state == "select_vs":
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if pvp_btn.clicked(event.pos):
+                        game.vs_mode = "pvp"
+                        game.reset()
+                        game.state = "game"
+
+                    if cpu_btn.clicked(event.pos):
                         game.vs_mode = "cpu"
+                        game.reset()
+                        game.state = "game"
+            
 
             elif game.state == "game":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         game.selected_col = max(0, game.selected_col - 1)
 
-                    elif event.key == pygame.K_RIGHT:
+                    if event.key == pygame.K_RIGHT:
                         game.selected_col = min(COLS - 1, game.selected_col + 1)
 
-                    elif event.key == pygame.K_RETURN:
-                        game.start_drop(game.selected_col)
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    col = event.pos[0] // CELL_SIZE
-                    game.start_drop(col)
+                    if event.key == pygame.K_RETURN:
+                        game.make_move()       
 
         screen.fill(BLACK)
 
