@@ -196,6 +196,16 @@ class Game:
                 self.start_drop(self.selected_col)
                 self.timer = 10
 
+    def draw_ui(self):
+        color = RED  if self.turn == 1 else YELLOW
+
+        pygame.draw.polygon(screen, color, [
+            (self.selected_col * CELL_SIZE + CELL_SIZE // 2, 10),
+            (self.selected_col * CELL_SIZE + 20, 40),
+            (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 40)           
+        ])
+
+
     def cpu_move(self):
         if self.cpu_difficulty == "easy":
             return random.randint(0, COLS - 1)
