@@ -1,5 +1,5 @@
 import pygame
-import random 
+import random
 import time
 
 pygame.init()
@@ -25,12 +25,13 @@ pygame.display.set_caption("Connect 4")
 font = pygame.font.SysFont(None, 40)
 clock = pygame.time.Clock()
 
+
 class Button:
     def __init__(self, text, x, y, w, h):
         self.rect = pygame.Rect(x, y, w, h)
         self.text = text
 
-    def  draw(self, screen):
+    def draw(self, screen):
         mouse = pygame.mouse.get_pos()
 
         color = LIGHT_GRAY if self.rect.collidepoint(mouse) else GRAY
@@ -38,12 +39,12 @@ class Button:
 
         label = font.render(self.text, True, WHITE)
         screen.blit(label, label.get_rect(center=self.rect.center))
-  
+
     def clicked(self, pos):
         return self.rect.collidepoint(pos)
 
+
 class Board:
-   
     def __init__(self):
         self.grid = [[0 for _ in range(COLS)] for _ in range(ROWS)]
 
@@ -58,34 +59,46 @@ class Board:
         return self.grid[0][col] != 0
 
     def check_win(self, player):
-        # horizontal 
+        # horizontal
         for r in range(ROWS):
             for c in range(COLS - 3):
-                if all(self.grid[r][c+i] == player for i in range(4)):
+                if all(self.grid[r][c + i] == player for i in range(4)):
                     return True
 
         # vertical
         for c in range(COLS):
             for r in range(ROWS - 3):
-                if all(self.grid[r+i][c] == player for i in range(4)):
+                if all(self.grid[r + i][c] == player for i in range(4)):
                     return True
 
         # diagonal \
         for r in range(ROWS - 3):
             for c in range(COLS - 3):
-                if all(self.grid[r+i][c+i] == player for i in range(4)):
+                if all(self.grid[r + i][c + i] == player for i in range(4)):
                     return True
 
         # diagonal /
         for r in range(3, ROWS):
             for c in range(COLS - 3):
-                if all(self.grid[r-i][c+i] == player for i in range(4)):
+                if all(self.grid[r - i][c + i] == player for i in range(4)):
                     return True
-   
+
         return False
 
-    def draw(self, screen):
+    def draw(self, screen, selected_col):
         screen.fill(BLACK)
+
+        pygame.draw.rect(
+            screen,
+            WHITE,
+            (
+                selected_col * CELL_SIZE,
+                CELL_SIZE,
+                CELL_SIZE,
+                ROWS * CELL_SIZE
+            ),
+            3
+        )
 
         for row in range(ROWS):
             for col in range(COLS):
@@ -97,41 +110,49 @@ class Board:
                 pygame.draw.circle(
                     screen,
                     BLACK,
-                    (col * CELL_SIZE + CELL_SIZE // 2,
-                     row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                    (
+                        col * CELL_SIZE + CELL_SIZE // 2,
+                        row * CELL_SIZE + CELL_SIZE // 2 + 100
+                    ),
                     CELL_SIZE // 2 - 5
                 )
 
+    
         for row in range(ROWS):
             for col in range(COLS):
                 if self.grid[row][col] == 1:
                     pygame.draw.circle(
                         screen,
                         RED,
-                        (col * CELL_SIZE + CELL_SIZE // 2,
-                         row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                        (
+                            col * CELL_SIZE + CELL_SIZE // 2,
+                            row * CELL_SIZE + CELL_SIZE // 2 + 100
+                        ),
                         CELL_SIZE // 2 - 5
                     )
                 elif self.grid[row][col] == 2:
                     pygame.draw.circle(
                         screen,
                         YELLOW,
-                        (col * CELL_SIZE + CELL_SIZE // 2,
-                         row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                        (
+                            col * CELL_SIZE + CELL_SIZE // 2,
+                            row * CELL_SIZE + CELL_SIZE // 2 + 100
+                        ),
                         CELL_SIZE // 2 - 5
                     )
+
 
 class Game:
     def __init__(self):
         self.board = Board()
-        self.turn = 1  
+        self.turn = 1
         self.selected_col = 0
         self.game_over = False
-        self.mode = "pvp" 
+        self.mode = "pvp"
         self.cpu_difficulty = "easy"
 
     def switch_turn(self):
-        self.turn = 2 if self.turn == 1 else 1 
+        self.turn = 2 if self.turn == 1 else 1
 
     def cpu_move(self):
         if self.cpu_difficulty == "easy":
@@ -146,12 +167,13 @@ class Game:
                 if not self.board.is_full(c):
                     return c
         return 0
-    
+
     def update(self):
         if self.mode == "cpu" and self.turn == 2 and not self.game_over:
             pygame.time.delay(300)
+
             col = self.cpu_move()
-            
+
             if not self.board.is_full(col):
                 self.board.drop_piece(col, 2)
 
@@ -177,8 +199,8 @@ class Game:
         label = font.render(text, True, WHITE)
         screen.blit(label, (10, 10))
 
+
 def main():
-    pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Connect 4")
 
@@ -194,16 +216,17 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
- 
+
             if event.type == pygame.KEYDOWN:
+
                 if event.key == pygame.K_LEFT:
                     game.selected_col = max(0, game.selected_col - 1)
 
-                if event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT:
                     game.selected_col = min(COLS - 1, game.selected_col + 1)
 
-                    if event.key == pygame.K_RETURN and not game.game_over:
-                        col = game.selected_col
+                elif event.key == pygame.K_RETURN and not game.game_over:
+                    col = game.selected_col
 
                     if not game.board.is_full(col):
                         game.board.drop_piece(col, game.turn)
@@ -213,7 +236,7 @@ def main():
 
                         game.switch_turn()
 
-                if event.key == pygame.K_r:
+                elif event.key == pygame.K_r:
                     game = Game()
 
             if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over:
@@ -224,18 +247,18 @@ def main():
 
                     if game.board.check_win(game.turn):
                         game.game_over = True
-                            
+
                     game.switch_turn()
 
         game.update()
 
-        screen.fill(BLACK)
-        game.board.draw(screen)
+        game.board.draw(screen, game.selected_col)
         game.draw_ui(screen, font)
 
         pygame.display.flip()
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
