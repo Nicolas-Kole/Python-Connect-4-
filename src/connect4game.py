@@ -301,8 +301,8 @@ def main():
                 exit_btn.draw(screen)
 
             elif game.state == "game":
-                 game.board.draw(game.selected_col)
-                 game.draw_ui()
+                game.board.draw(game.selected_col)
+                game.draw_ui()
                 
 
 
