@@ -164,6 +164,23 @@ class Game:
         valid = [c for c in range(COLS) if not self.board.is_full(c)]
         return random.choice(valid) if valid else None
 
+    def update_animation(self):
+        if not self.falling_piece:
+            return
+        
+        self.falling_piece["y"] += 20
+        if self.falling_piece["y"] >= self.falling_piece["target_y"]:
+            self.falling_piece = None
+
+            if self.board.check_win(self.turn):
+                self.game_over = True
+                self.winner = self.turn
+            elif self.board.is_draw():
+                self.game_over = True
+                self.winner = "draw"
+            self.switch_turn()
+
+
     def update_timer(self):
         if self.game_mode == "timed" and not self.game_over:
             if time.time() - self.last_time >= 1:
