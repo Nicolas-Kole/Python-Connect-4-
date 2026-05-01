@@ -329,9 +329,6 @@ def main():
                     CELL_SIZE // 2 - 5
                 )
                    
-                
-
-            if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_LEFT:
                     game.selected_col = max(0, game.selected_col - 1)
