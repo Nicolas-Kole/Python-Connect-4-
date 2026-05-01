@@ -160,6 +160,20 @@ class Game:
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
 
+
+    def cpu_move(self):
+        valid = [c for c in range(COLS) if not self.board.is_full(c)]
+
+        for c in valid:
+            temp = [row[:] for row in self.board.grid]
+            for r in reversed(range(ROWS)):
+                if temp[r][c] == 0:
+                    temp[r][c] = 2
+                    break
+            if Board().check_win(2):
+                return c
+
+
     def cpu_move(self):
         if self.cpu_difficulty == "easy":
             return random.randint(0, COLS - 1)
