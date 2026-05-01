@@ -181,7 +181,9 @@ class Game:
                 if temp[r][c] == 0:
                     temp[r][c] = 2
                     break
-            if Board().check_win(2):
+            temp_board = Board()
+            temp_board.grid = temp
+            if temp_board.check_win(2):
                 return c
        
         for c in valid:
@@ -284,7 +286,7 @@ def main():
 
     play_btn = Button("Play", 250, 200, 200, 50)
     tutorial_btn = Button("Tutorial", 250, 270, 200, 50)
-    exit_btn = Button("Exit", 250, 270, 200, 50)
+    exit_btn = Button("Exit", 250, 340, 200, 50)
 
     running = True
     while running:
@@ -308,7 +310,7 @@ def main():
                     if event.key == pygame.K_RETURN: 
                         game.start_drop(game.selected_col)
 
-            if game.state == "game":
+            if game.state == "menu":
                 screen.fill(BLACK)
                 play_btn.draw(screen)
                 tutorial_btn.draw(screen)
