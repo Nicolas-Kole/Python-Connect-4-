@@ -205,6 +205,13 @@ class Game:
             (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 40)           
         ])
 
+        text = f"Player {self.turn}" if not self.game_over else "Game Over"
+        label = font.render(text, True, WHITE)
+        screen.blit(label, label.get_rect(center=(WIDTH//2, 60))) 
+
+        if self.mode == "timed":
+            t = font.render(f"Time: {self.timer}", True, WHITE)
+            screen.blit(t, (10, 10))
 
     def cpu_move(self):
         if self.cpu_difficulty == "easy":
