@@ -27,10 +27,9 @@ class Board:
         return None
 
     def is_full(self, col):
-        return self.grid[0][col] !=0
+        return self.grid[0][col] != 0
 
     def check_win(self, player):
-    
         # horizontal 
         for r in range(ROWS):
             for c in range(COLS - 3):
@@ -57,31 +56,42 @@ class Board:
    
         return False
 
-    
     def draw(self, screen):
         screen.fill(BLACK)
 
         for row in range(ROWS):
             for col in range(COLS):
-                pygame.draw.rect(screen, BLUE,
-                                 (col * CELL_SIZE, row * CELL_SIZE + 100, CELL_SIZE, CELL_SIZE))
-                pygame.draw.circle(screen, BLACK,
-                                   (col * CELL_SIZE + CELL_SIZE // 2,
-                                    row * CELL_SIZE + CELL_SIZE // 2 + 100),
-                                   CELL_SIZE // 2 - 5)
+                pygame.draw.rect(
+                    screen,
+                    BLUE,
+                    (col * CELL_SIZE, row * CELL_SIZE + 100, CELL_SIZE, CELL_SIZE)
+                )
+                pygame.draw.circle(
+                    screen,
+                    BLACK,
+                    (col * CELL_SIZE + CELL_SIZE // 2,
+                     row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                    CELL_SIZE // 2 - 5
+                )
 
         for row in range(ROWS):
             for col in range(COLS):
                 if self.grid[row][col] == 1:
-                    pygame.draw.circle(screen, RED,
-                                       (col * CELL_SIZE + CELL_SIZE // 2,
-                                        row * CELL_SIZE + CELL_SIZE // 2 + 100),
-                                       CELL_SIZE // 2 - 5)
+                    pygame.draw.circle(
+                        screen,
+                        RED,
+                        (col * CELL_SIZE + CELL_SIZE // 2,
+                         row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                        CELL_SIZE // 2 - 5
+                    )
                 elif self.grid[row][col] == 2:
-                    pygame.draw.circle(screen, YELLOW,
-                                       (col * CELL_SIZE + CELL_SIZE // 2,
-                                        row * CELL_SIZE + CELL_SIZE // 2 + 100),
-                                       CELL_SIZE // 2 - 5)
+                    pygame.draw.circle(
+                        screen,
+                        YELLOW,
+                        (col * CELL_SIZE + CELL_SIZE // 2,
+                         row * CELL_SIZE + CELL_SIZE // 2 + 100),
+                        CELL_SIZE // 2 - 5
+                    )
 
 class Game:
     def __init__(self):
@@ -104,7 +114,7 @@ class Game:
             return random.choice(valid)
 
         elif self.cpu_difficulty == "hard":
-            for c in [3,2,4,1,5,0,6]:
+            for c in [3, 2, 4, 1, 5, 0, 6]:
                 if not self.board.is_full(c):
                     return c
         return 0
@@ -126,7 +136,7 @@ class Game:
         color = RED if self.turn == 1 else YELLOW
 
         pygame.draw.polygon(screen, color, [
-            (self.selected_col * CELL_SIZE + CELL_SIZE//2, 20),
+            (self.selected_col * CELL_SIZE + CELL_SIZE // 2, 20),
             (self.selected_col * CELL_SIZE + 20, 60),
             (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 60)
         ])
@@ -135,6 +145,7 @@ class Game:
             text = f"Player {self.turn}'s Turn"
         else:
             text = f"Player {2 if self.turn == 1 else 1} Wins!"
+
         label = font.render(text, True, WHITE)
         screen.blit(label, (10, 10))
 
@@ -180,27 +191,23 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over:
                 col = event.pos[0] // CELL_SIZE
 
+                if not game.board.is_full(col):
+                    game.board.drop_piece(col, game.turn)
 
-            if not game.board.is_full(col):
-                        
-                        game.board.drop_piece(col, game.turn)
-
-                        if game.board.check_win(game.turn):
-                            game.game_over = True
+                    if game.board.check_win(game.turn):
+                        game.game_over = True
                             
-                        game.switch_turn()
+                    game.switch_turn()
 
-            game.update()
+        game.update()
 
-            screen.fill(BLACK)
-            game.board.draw(screen)
-            game.draw_ui(screen, font)
+        screen.fill(BLACK)
+        game.board.draw(screen)
+        game.draw_ui(screen, font)
 
-            pygame.display.flip()
+        pygame.display.flip()
 
-pygame.quit()
-
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
-
