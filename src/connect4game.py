@@ -172,7 +172,20 @@ class Game:
                     break
             if Board().check_win(2):
                 return c
+       
+        for c in valid:
+            temp = [row[:] for row in self.board.grid]
 
+            for r in reversed(range(ROWS)):
+                if temp[r][c] == 0:
+                    temp[r][c] = 1
+                    break
+
+            if self.board.check_win(1):
+                return c
+            
+        return random.choice(valid)
+                
 
     def cpu_move(self):
         if self.cpu_difficulty == "easy":
