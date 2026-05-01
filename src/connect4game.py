@@ -207,7 +207,6 @@ class Game:
                 self.start_drop(self.selected_col)
                 self.timer = 10
 
-    def draw_ui(self):
         color = RED  if self.turn == 1 else YELLOW
 
         pygame.draw.polygon(screen, color, [
