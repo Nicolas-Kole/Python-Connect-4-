@@ -25,6 +25,14 @@ pygame.display.set_caption("Connect 4")
 font = pygame.font.SysFont(None, 40)
 clock = pygame.time.Clock()
 
+class Button:
+    def __init__(self, text, x, y, w, h):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.text = text
+
+    def  draw(self, screen):
+        mouse = pygame.mouse.get_pos()
+
 class Board:
    
     def __init__(self):
