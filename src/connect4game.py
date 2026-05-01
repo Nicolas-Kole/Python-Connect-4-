@@ -204,7 +204,7 @@ class Game:
                 return c
             
     def update_timer(self):
-        if self.mode == "timed" and not self.game_over:
+        if self.game_mode == "timed" and not self.game_over:
             if time.time() - self.last_time >= 1:
                 self.timer -= 1
                 self.last_time = time.time()
