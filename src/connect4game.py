@@ -6,7 +6,8 @@ pygame.init()
 
 ROWS = 6
 COLS = 7
-CELL_SIZE = 80
+CELL_SIZE = 90
+HEIGHT = (ROWS + 2) * CELL_SIZE
 
 WIDTH = COLS * CELL_SIZE
 HEIGHT = (ROWS + 2) * CELL_SIZE
@@ -151,18 +152,13 @@ class Game:
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
 
+    def make_move(self):
+            
+
     def start_drop(self, col):
         if self.board.is_full(col) or self.falling_piece or self.game_over:
             return
 
-        row = self.board.drop_piece(col, self.turn)
-
-        self.falling_piece = {
-            "col": col,
-            "y": 0,
-            "target_y": row * CELL_SIZE + 100,
-            "player": self.turn
-        }
 
     def cpu_move(self):
         valid = [c for c in range(COLS) if not self.board.is_full(c)]
