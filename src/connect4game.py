@@ -63,16 +63,16 @@ class Button:
     
 class Board:
     def __init__(self):
-        self.grid = [[0 for _ in range(COLS)] for _ in range(ROWS)]
+        self.grid = [[0]*COLS for _ in range(ROWS)]
 
-    def drop_piece(self, col, player):
-        for row in reversed(range(ROWS)):
-            if self.grid[row][col] == 0:
-                self.grid[row][col] = player
-                return row
+    def drop(self, col, player):
+        for r in reversed(range(ROWS)):
+            if self.grid[r][col] == 0:
+                self.grid[r][col] = player
+                return r
         return None
 
-    def is_full(self, col):
+    def full(self, col):
         return self.grid[0][col] != 0
 
     def is_draw(self):
