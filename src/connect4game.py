@@ -17,13 +17,25 @@ pygame.display.set_caption("Connect 4")
 
 clock = pygame.time.Clock()
 
-BLUE = (0, 0, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-YELLOW = (255, 255, 0)
-WHITE = (255, 255, 255)
+WHITE = (240, 240, 240)
+BLACK = (20, 20, 20)
 GRAY = (80, 80, 80)
-LIGHT_GRAY = (150, 150, 150)
+LIGHT_GRAY = (160, 160, 160)
+
+COLOR_OPTIONS = [
+    ("Red", (220, 50, 50)),
+    ("Orange", (255, 140, 0)),
+    ("Yellow", (240, 220, 0)),
+    ("Green", (40, 200, 80)),
+    ("Blue", (50, 120, 255)),
+    ("Purple", (160, 60, 200)),
+    ("Pink", (255, 105, 180)),
+    ("Magenta", (255, 0, 255)),
+    ("Dark Gray", (60, 60, 60)),
+    ("Brown", (120, 70, 30)),
+    ("Cyan", (0, 200, 200)),
+    ("Random", None)
+]
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Connect 4")
