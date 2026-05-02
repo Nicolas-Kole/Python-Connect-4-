@@ -12,6 +12,11 @@ HEIGHT = (ROWS + 2) * CELL_SIZE
 WIDTH = COLS * CELL_SIZE
 HEIGHT = (ROWS + 2) * CELL_SIZE
 
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Connect 4")
+
+clock = pygame.time.Clock()
+
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
