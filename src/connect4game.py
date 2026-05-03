@@ -43,21 +43,22 @@ class Button:
     def clicked(self, pos):
         return self.rect.collidepoint(pos)
 
-
 class Board:
+   class Board:
     def __init__(self):
-        self.grid = [[0] * COLS for _ in range(ROWS)]
+        self.reset()
         self.win_cells = []
 
     def reset(self):
         self.grid = [[0] * COLS for _ in range(ROWS)]
+        self.win_cells = []
 
     def drop(self, col, player):
         for r in reversed(range(ROWS)):
             if self.grid[r][col] == 0:
                 self.grid[r][col] = player
-                return True
-        return False
+                return r
+        return None
 
     def full(self, col):
         return self.grid[0][col] != 0
@@ -66,29 +67,34 @@ class Board:
         return all(self.grid[0][c] != 0 for c in range(COLS))
 
     def check_win(self, player):
+        self.win_cells = []
 
         # horizontal
         for r in range(ROWS):
             for c in range(COLS - 3):
-                if all(self.grid[r][c + i] == player for i in range(4)):
+                if all(self.grid[r][c+i] == player for i in range(4)):
+                    self.win_cells = [(r, c+i) for i in range(4)]
                     return True
 
         # vertical
         for c in range(COLS):
             for r in range(ROWS - 3):
-                if all(self.grid[r + i][c] == player for i in range(4)):
+                if all(self.grid[r+i][c] == player for i in range(4)):
+                    self.win_cells = [(r+i, c) for i in range(4)]
                     return True
 
         # diagonal \
         for r in range(ROWS - 3):
             for c in range(COLS - 3):
-                if all(self.grid[r + i][c + i] == player for i in range(4)):
+                if all(self.grid[r+i][c+i] == player for i in range(4)):
+                    self.win_cells = [(r+i, c+i) for i in range(4)]
                     return True
 
         # diagonal /
         for r in range(3, ROWS):
             for c in range(COLS - 3):
-                if all(self.grid[r - i][c + i] == player for i in range(4)):
+                if all(self.grid[r-i][c+i] == player for i in range(4)):
+                    self.win_cells = [(r-i, c+i) for i in range(4)]
                     return True
 
         return False
@@ -100,22 +106,18 @@ class Board:
                 y = r * CELL_SIZE + 100
 
                 pygame.draw.rect(screen, BLUE, (x, y, CELL_SIZE, CELL_SIZE))
-
                 pygame.draw.circle(screen, BLACK, (x+45, y+45), 35)
 
                 val = self.grid[r][c]
-                if val != 0:
-                    color = RED if val == 1 else YELLOW
+                if val == 1:
+                    pygame.draw.circle(screen, RED, (x+45, y+45), 32)
+                elif val == 2:
+                    pygame.draw.circle(screen, YELLOW, (x+45, y+45), 32)
 
-                    pygame.draw.circle(screen, color, (x+45, y+45), 32)
-                    pygame.draw.circle(screen, (255,255,255), (x+35, y+35), 10)
-           
-            for r,c in self.win_cells:
-                 x = c * CELL_SIZE + 45
-                 y = r * CELL_SIZE + 145
-                 pygame.draw.line(screen, WHITE, (x-20,y-20),(x+20,y+20),3)
-                 pygame.draw.line(screen, WHITE, (x+20,y-20),(x-20,y+20),3)
-
+        for r, c in self.win_cells:
+            x = c * CELL_SIZE + 45
+            y = r * CELL_SIZE + 145
+            pygame.draw.circle(screen, WHITE, (x, y), 40, 3)
 
 
 class Game:
