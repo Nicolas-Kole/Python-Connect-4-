@@ -136,7 +136,10 @@ class Game:
         self.selected_col = 0
 
         self.vs_mode = None
-        self.cpu_diff = "easy"
+        self.cpu_diff = None
+
+        self.p1_color = None
+        self.p2_color = None
 
         self.game_over = False
         self.winner = None
