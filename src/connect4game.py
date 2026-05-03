@@ -301,6 +301,13 @@ def main():
     tutorial = Button("Tutorial", 250, 280, 200, 60)
     exit_btn = Button("Exit", 250, 360, 200, 60)
 
+    classic_btn = Button("Classic", 200, 250, 180, 60)
+    timed_btn = Button("Timed", 400, 250, 180, 60)
+
+    easy_btn = Button("Easy", 300, 250, 200, 60)
+    med_btn = Button("Intermediate", 300, 320, 200, 60)
+    hard_btn = Button("Advanced", 300, 390, 200, 60)
+
     running = True
 
     while running:
@@ -318,6 +325,19 @@ def main():
                         game.state = "tutorial"
                     if exit_btn.clicked(e.pos):
                         running = False
+
+            elif game.state == "mode":
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                    if classic_btn.clicked(e.pos):
+                        game.mode = "classic"
+                        game.state = "vs"
+                    if timed_btn.clicked(e.pos):
+                        game.mode = "timed"
+                        game.state = "vs"
+
+
+
+
 
             if game.state == "game":
                 if e.type == pygame.KEYDOWN:
