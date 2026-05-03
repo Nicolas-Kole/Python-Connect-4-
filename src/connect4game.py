@@ -197,5 +197,23 @@ class Game:
             (x+70,90)
         ])
 
+    def main():
+        game = Game
+
+        play = Button("Play",250,200,200,60)
+        tutorial = Button("Tutorial",250,280,200,60)
+        exit = Button("Exit",250,360,200,60)
+
+        running = True
+
+        while running: 
+            clock.tick(60)
+
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    running = False
+
+
+
 
 
