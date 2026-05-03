@@ -75,6 +75,9 @@ class Board:
         self.grid = [[0]*COLS for _ in range(ROWS)]
         self.win_cells = []
 
+    def reset(self):
+        self.grid = [[0]*COLS for _ in range(ROWS)] 
+    
     def drop(self, col, player):
         for r in reversed(range(ROWS)):
             if self.grid[r][col] == 0:
