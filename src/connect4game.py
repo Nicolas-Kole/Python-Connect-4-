@@ -347,14 +347,25 @@ def main():
                     if cpu_btn.clicked(e.pos):
                         game.vs_mode = "cpu"
                         game.state = "difficulty"
+            
+            elif game.state == "difficulty":
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                     if easy_btn.clicked(e.pos):
+                         game.cpu_diff = "easy"
+                         game.state = "game"
+                         game.reset()
+                     if med_btn.clicked(e.pos):
+                         game.cpu_diff = "intermediate"
+                         game.state = "game"
+                         game.reset()
+                     if hard_btn.clicked(e.pos):
+                         game.cpu_diff = "advanced"
+                         game.state = "game"
+                         game.reset()
+            elif game.state == "game":
 
 
 
-
-
-
-
-            if game.state == "game":
                 if e.type == pygame.KEYDOWN:
                     if e.key == pygame.K_LEFT:
                         game.selected_col = max(0, game.selected_col - 1)
