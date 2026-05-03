@@ -171,7 +171,6 @@ class Game:
             self.winner = self.turn
             return
 
-        self.board.drop(col, self.turn) 
 
         self.turn = 2 if self.turn == 1 else 1
 
@@ -210,7 +209,7 @@ class Game:
         pygame.draw.rect(screen, WHITE, (x,100,CELL_SIZE,HEIGHT),2)
 
         self.board.draw()
-        self.board.banner()
+        self.draw_banner()
 
         pygame.draw.polygon(screen, WHITE, [
             (x+45,60),
@@ -218,67 +217,59 @@ class Game:
             (x+70,90)
         ])
 
-    def main():
-        game = Game()
+    
+def main():
+    game = Game()
 
-        play = Button("Play",250,200,200,60)
-        tutorial = Button("Tutorial",250,280,200,60)
-        exit = Button("Exit",250,360,200,60)
+    play = Button("Play", 250, 200, 200, 60)
+    tutorial = Button("Tutorial", 250, 280, 200, 60)
+    exit_btn = Button("Exit", 250, 360, 200, 60)
 
-        running = True
+    running = True
 
-        while running: 
-            clock.tick(60)
+    while running:
+        clock.tick(60)
 
-            for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    running = False
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                running = False
 
-                if game.state == "menu":
-                    if e.type == pygame.MOUSEBUTTONDOWN:
-                         if play.clicked(e.pos):
-                              game.state = "game"
-                         if tutorial.clicked(e.pos):
-                             game.state = "tutorial" 
-                         if exit.clicked(e.pos): 
-                             running = False  
-                
-                if game.state == "game":
-                    if e.type == pygame.KEYDOWN:
-                        if e.key == pygame.K_LEFT:
-                            game.selected_col = max(0, game.selected_col-1)
-                        if e.key == pygame.K_RIGHT:
-                            game.selected_col = min(COLS-1, game.selected_col+1)
-                        if e.key == pygame.K_RETURN:
-                            game.move(game.selected_col)
-                
-                screen.fill(BLACK)
-                
-                if game.state == "menu":
-                    play.draw()
-                    tutorial.draw()
-                    exit.draw()
-                
-                elif game.state == "game":
-                    game.draw_game()
+            if game.state == "menu":
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                    if play.clicked(e.pos):
+                        game.state = "game"
+                    if tutorial.clicked(e.pos):
+                        game.state = "tutorial"
+                    if exit_btn.clicked(e.pos):
+                        running = False
 
-                    if game.vs_mode == "cpu" and game.turn == 2:
-                        time.sleep(0.2)
-                        game.move(game.cpu_move())
-                
-                elif game.state == "tutorial":
-                    t = big.render("TUTORIAL PLACEHOLDER", True, WHITE)
-                    screen.blit(t,(100,200))
-                
-                pygame.display.flip()
-            
+            if game.state == "game":
+                if e.type == pygame.KEYDOWN:
+                    if e.key == pygame.K_LEFT:
+                        game.selected_col = max(0, game.selected_col - 1)
+                    if e.key == pygame.K_RIGHT:
+                        game.selected_col = min(COLS - 1, game.selected_col + 1)
+                    if e.key == pygame.K_RETURN:
+                        game.move(game.selected_col)
 
-                             
+        screen.fill(BLACK)
 
+        if game.state == "menu":
+            play.draw()
+            tutorial.draw()
+            exit_btn.draw()
 
-            
+        elif game.state == "game":
+            game.update_cpu()
+            game.draw_game()
 
+        elif game.state == "tutorial":
+            t = big.render("TUTORIAL PLACEHOLDER", True, WHITE)
+            screen.blit(t, (100, 200))
 
+        pygame.display.flip()
 
+    pygame.quit()
 
-
+if __name__ == "__main__":
+    main()
