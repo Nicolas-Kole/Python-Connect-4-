@@ -77,7 +77,8 @@ class Board:
         for r in reversed(range(ROWS)):
             if self.grid[r][col] == 0:
                 self.grid[r][col] = player
-                return
+                return True
+        return False
 
     def full(self, col):
         return self.grid[0][col] != 0
