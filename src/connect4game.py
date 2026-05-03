@@ -220,7 +220,19 @@ class Game:
                          if tutorial.clicked(e.pos):
                              game.state = "tutorial" 
                          if exit.clicked(e.pos): 
-                             running = False     
+                             running = False  
+                
+                if game.state == "game":
+                    if e.type == pygame.KEYDOWN:
+                        if e.key == pygame.K_LEFT:
+                            game.selected_col = max(0, game.selected_col-1)
+                        if e.key == pygame.K_RIGHT:
+                            game.selected_col = min(COLS-1, game.selected_col+1)
+                        if e.key == pygame.K_RETURN:
+                            game.move(game.selected_col)
+
+
+
                           
 
                              
