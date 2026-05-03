@@ -271,13 +271,13 @@ class Game:
         screen.fill(BLACK)
 
         x = self.selected_col * CELL_SIZE
-        col_color = self.p1_color if self.turn == 1 else self.p2_color
-
+        
         if self.p1_color is None:
             self.p1_color = (220, 50, 50) #Red
         if self.p2_color is None:
             self.p2_color = (50, 120, 255)  # Blue
-
+        col_color = self.p1_color if self.turn == 1 else self.p2_color
+        
         pygame.draw.rect(screen, WHITE, (x, 100, CELL_SIZE, HEIGHT), 2)
 
         self.board.draw(self.p1_color, self.p2_color)
