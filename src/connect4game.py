@@ -189,13 +189,13 @@ class Game:
 
     def update(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
-            self.timer += 1
-            if self.timer > 40:
+            self.cpu_timer += 1
+            if self.cpu_timer > 40:
                 self.move(self.cpu_move())
 
         if self.mode == "timed" and not self.game_over:
-            self.timer += 1
-            if self.timer > self.limit:
+            self.cpu_timer += 1
+            if self.cpu_timer > self.limit:
                 self.move(self.selected_col)
 
     def draw_color_select(self):
