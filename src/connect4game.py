@@ -209,4 +209,32 @@ class Game:
             t = big.render(text, True, WHITE)
             screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
 
+    def main():
+        game = Game()
+
+        play_btn = Button("PLAY", 250, 200, 200, 60)
+        exit_btn = Button("EXIT", 250, 300, 200, 60)
+
+
+        classic_btn = Button("CLASSIC", 250, 200, 200, 60)
+        timed_btn = Button("TIMED", 250, 300, 200, 60)
+
+        pvp_btn = Button("VS PLAYER", 250, 200, 200, 60)
+        cpu_btn = Button("VS CPU", 250, 300, 200, 60)
+
+        easy_btn = Button("EASY", 250, 200, 200, 60)
+        med_btn = Button("INTERMEDIATE", 250, 300, 200, 60)
+        hard_btn = Button("ADVANCED", 250, 400, 200, 60)
+
+        running = True
+
+        while running:
+            clock.tick(60)
+
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    running = False
+
+
     
+        
