@@ -154,6 +154,17 @@ class Game:
         if self.cpu_diff == "advanced":
             return random.choice(valid[:2]) 
 
+    def move(self, col):
+        if self.board.full(col) or self.game_over:
+            return
+    
+        self.board.drop(col, self.turn) 
+
+        if self.board.check_win(self.turn):
+            self.game_over = True
+        
+        self.turn = 2 if self.turn == 1 else 1
+
 
 
 
