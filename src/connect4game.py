@@ -217,7 +217,21 @@ class Game:
             (center_x - 18, 40),           
             (center_x + 18, 40)            
         ])
+        self.board.draw(self.colors)
+        
+        if self.falling:
+             fp = self.falling
+             pygame.draw.circle(screen,
+                self.colors[fp["player"]],
+                (fp["col"]*CELL_SIZE + CELL_SIZE//2, int(fp["y"])),
+                CELL_SIZE//2 - 10)
 
+                            
+                                
+
+        
+        
+        
         if self.game_over:
             if self.winner == "draw":
                 text = "Draw!"
