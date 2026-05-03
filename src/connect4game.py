@@ -213,8 +213,8 @@ class Game:
 
         pygame.draw.polygon(screen, WHITE, [
             (x+45,110),
-            (x+20,90),
-            (x+70,90)
+            (x+20,80),
+            (x+70,80)
         ])
 
     
