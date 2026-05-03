@@ -304,6 +304,9 @@ def main():
     classic_btn = Button("Classic", 200, 250, 180, 60)
     timed_btn = Button("Timed", 400, 250, 180, 60)
 
+    pvp_btn = Button("VS Player", 200, 250, 180, 60)
+    cpu_btn = Button("VS CPU", 400, 250, 180, 60)
+   
     easy_btn = Button("Easy", 300, 250, 200, 60)
     med_btn = Button("Intermediate", 300, 320, 200, 60)
     hard_btn = Button("Advanced", 300, 390, 200, 60)
@@ -334,6 +337,18 @@ def main():
                     if timed_btn.clicked(e.pos):
                         game.mode = "timed"
                         game.state = "vs"
+
+            elif game.state == "vs":
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                    if pvp_btn.clicked(e.pos):
+                         game.vs_mode = "pvp"
+                         game.state = "game"
+                         game.reset()
+                    if cpu_btn.clicked(e.pos):
+                        game.vs_mode = "cpu"
+                        game.state = "difficulty"
+
+
 
 
 
