@@ -52,20 +52,14 @@ class Button:
             screen,
             LIGHT_GRAY if hover else GRAY,
             self.rect,
-            border_radius=6
+            border_radius=8
         )
 
-        pygame.draw.rect(screen, WHITE, self.rect, 2, border_radius=6)
+        pygame.draw.rect(screen, WHITE, self.rect, 2, border_radius=8)
 
         t = font.render(self.text, True, WHITE)
         screen.blit(t, t.get_rect(center=self.rect.center))
-    
-    def draw(self):
-        hover = self.rect.collidepoint(pygame.mouse.get_pos())
-        pygame.draw.rect(screen, LIGHT_GRAY if hover else GRAY, self.rect, border_radius=8)
-        t = font.render(self.text, True, WHITE)
-        screen.blit(t, t.get_rect(center=self.rect.center))
-    
+
     def clicked(self, pos):
         return self.rect.collidepoint(pos)
 
@@ -254,6 +248,7 @@ class Game:
 
         self.board.draw()
         self.draw_banner()
+        self.draw_pause()
 
         pygame.draw.polygon(screen, col_color, [
             (x+45,110),
@@ -293,22 +288,6 @@ def update(self):
         self.timer+=1
         if self.timer>self.limit:
             self.move()
-
-
-
-
-
-
-    
- 
-
-
-
-
-
-
-
-
 
 
 def main():
