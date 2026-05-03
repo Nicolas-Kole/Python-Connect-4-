@@ -140,6 +140,9 @@ class Game:
         self.vs_mode = None
         self.cpu_diff = None
 
+        self.color_index = 0
+        self.color_turn = 1   # 1 = Player 1, 2 = Player 2
+        self.state = "menu"
         self.p1_color = None
         self.p2_color = None
 
