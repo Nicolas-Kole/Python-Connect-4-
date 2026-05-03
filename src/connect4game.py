@@ -139,6 +139,7 @@ class Game:
         self.turn = 1
         self.selected_col = 0
 
+        self.mode = None
         self.vs_mode = None
         self.cpu_diff = None
 
@@ -149,6 +150,7 @@ class Game:
         self.winner = None
         
         self.cpu_timer = 0
+        self.limit = 600
         self.menu_open = False
 
     def reset(self):
