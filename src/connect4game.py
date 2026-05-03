@@ -382,13 +382,28 @@ def main():
             tutorial.draw()
             exit_btn.draw()
 
+        elif game.state == "mode":
+            big_text = big.render("Select Mode", True, WHITE)
+            screen.blit(big_text, (220, 150))
+            classic_btn.draw()
+            timed_btn.draw()
+
+        elif game.state == "vs":
+            big_text = big.render("Select VS Mode", True, WHITE)
+            screen.blit(big_text, (180, 150))
+            pvp_btn.draw()
+            cpu_btn.draw()
+
+        elif game.state == "difficulty":
+            big_text = big.render("CPU Difficulty", True, WHITE)
+            screen.blit(big_text, (180, 150))
+            easy_btn.draw()
+            med_btn.draw()
+            hard_btn.draw()
+
         elif game.state == "game":
             game.update_cpu()
             game.draw_game()
-
-        elif game.state == "tutorial":
-            t = big.render("TUTORIAL PLACEHOLDER", True, WHITE)
-            screen.blit(t, (100, 200))
 
         pygame.display.flip()
 
