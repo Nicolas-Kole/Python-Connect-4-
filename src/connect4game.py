@@ -125,3 +125,22 @@ class Board:
         for r,c in self.win_cells:
             pygame.draw.circle(screen, (255,255,255),
                 (c*CELL_SIZE+45, r*CELL_SIZE+145), 10)
+            
+class Game: 
+    def __init__(self):
+        self.state = "menu"
+
+        self.board = Board() 
+        self.turn = 1
+        self.selected_col = 0
+
+        self.vs_mode = None
+        self.cpu_diff
+
+        self.game_over = False
+        self.Winner = None
+
+        self.menu_open = False
+
+
+
