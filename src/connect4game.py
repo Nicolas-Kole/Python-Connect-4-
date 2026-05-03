@@ -235,6 +235,49 @@ class Game:
                 if e.type == pygame.QUIT:
                     running = False
 
+                if game.state == "menu":
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        if play_btn.clicked(e.pos):
+                            game.state = "mode"
+                    if exit_btn.clicked(e.pos):
+                            running = False
+                
+                elif game.state == "mode":
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        if classic_btn.clicked(e.pos):
+                            game.mode = "classic"
+                            game.state = "vs"
+                    if timed_btn.clicked(e.pos):
+                            game.mode = "timed"
+                            game.state = "vs" 
+                
+                elif game.state == "vs":
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        if pvp_btn.clicked(e.pos):
+                            game.vs_mode = "pvp"
+                            game.reset()
+                            game.state = "game"
+
+                    if cpu_btn.clicked(e.pos):
+                            game.vs_mode = "cpu"
+                            game.state = "cpu"
+                
+                elif game.state == "cpu":
+                    if e.type == pygame.KEYDOWN:
+                        if e.key == pygame.K_LEFT:
+                            game.selected_col = max(0, game.selected_col - 1)
+
+                    if e.key == pygame.K_RIGHT:
+                            game.selected_col = min(COLS - 1, game.selected_col + 1)
+
+                    if e.key == pygame.K_RETURN:
+                            game.move(game.selected_col)
+
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        col = e.pos[0] // CELL_SIZE
+                        game.move(col) 
+
+
 
     
         
