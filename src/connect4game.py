@@ -188,3 +188,14 @@ class Game:
         screen.fill(BLACK)
 
         self.board.draw()
+
+        x = self.selected_col * CELL_SIZE
+        color = RED if self.turn == 1 else YELLOW
+
+        pygame.draw.polygon(screen, color, [
+            (x+45, 80),
+            (x+20, 50),
+            (x+70, 50)
+        ])
+
+    
