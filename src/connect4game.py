@@ -158,6 +158,8 @@ class Game:
         self.turn = 1
         self.selected_col = 0
         self.menu_open = False
+        self.winner = None
+        self.cpu_timer = 0
 
     def cpu_move(self):
         valid = [c for c in range(COLS) if not self.board.full(c)]
