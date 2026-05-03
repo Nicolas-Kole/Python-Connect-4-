@@ -77,7 +77,6 @@ class Board:
             if self.grid[r][col] == 0:
                 self.grid[r][col] = player
                 return 
-    
 
     def full(self, col):
         return self.grid[0][col] != 0
@@ -105,7 +104,7 @@ class Board:
                 if all(self.grid[r + i][c + i] == player for i in range(4)):
                     return True
         
-         # diagonal /
+        # diagonal /
         for r in range(3, ROWS):
             for c in range(COLS - 3):
                 if all(self.grid[r - i][c + i] == player for i in range(4)):
@@ -127,7 +126,7 @@ class Board:
                 elif self.grid[r][c] == 2:
                     pygame.draw.circle(screen, p2_col, (x+45, y+45), 32)
 
-            
+
 class Game: 
     def __init__(self):
         self.state = "menu"
@@ -142,7 +141,7 @@ class Game:
 
         self.color_index = 0
         self.color_turn = 1   # 1 = Player 1, 2 = Player 2
-        self.state = "menu"
+
         self.p1_color = None
         self.p2_color = None
 
@@ -185,7 +184,6 @@ class Game:
             self.winner = self.turn
             return
 
-
         self.turn = 2 if self.turn == 1 else 1
         self.timer = 0
 
@@ -200,7 +198,7 @@ class Game:
             if self.timer > self.limit:
                 self.move(self.selected_col)
 
-    def  draw_color_select(self):
+    def draw_color_select(self):
         screen.fill(BLACK) 
         title = big.render(f"Select Color - Player {self.color_turn}", True, WHITE)
         screen.blit(title, (120, 60))
@@ -218,20 +216,20 @@ class Game:
 
             selected = (i == self.color_index)
 
-        pygame.draw.rect(
-            screen,
-            LIGHT_GRAY if selected else GRAY,
-            rect,
-            border_radius=8
-        )
-        
-        if col:
-            pygame.draw.circle(screen, col, rect.center, 22)
-        else:
-            pygame.draw.circle(screen, (200,200,200), rect.center, 22)
+            pygame.draw.rect(
+                screen,
+                LIGHT_GRAY if selected else GRAY,
+                rect,
+                border_radius=8
+            )
+            
+            if col:
+                pygame.draw.circle(screen, col, rect.center, 22)
+            else:
+                pygame.draw.circle(screen, (200,200,200), rect.center, 22)
 
-        label = font.render(name, True, WHITE)
-        screen.blit(label, (x, y + 60))
+            label = font.render(name, True, WHITE)
+            screen.blit(label, (x, y + 60))
 
 
     def draw_banner(self):
@@ -310,7 +308,7 @@ def select_color(self):
     # Player 2 picks
     else:
         if color == self.p1_color:
-            return  # prevent duplicate colors
+            return
 
         self.p2_color = color
         self.state = "game" 
