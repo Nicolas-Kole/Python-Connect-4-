@@ -203,4 +203,10 @@ class Game:
 
         clear = font.render("CLEAR", True, WHITE)
         screen.blit(clear, (WIDTH - 100, 10))
+
+        if self.game_over:
+            text = "DRAW" if self.winner == "draw" else f"PLAYER {self.winner} WINS"
+            t = big.render(text, True, WHITE)
+            screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
+
     
