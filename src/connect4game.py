@@ -79,7 +79,7 @@ class Board:
         for r in reversed(range(ROWS)):
             if self.grid[r][col] == 0:
                 self.grid[r][col] = player
-                return r
+                return 
     
 
     def full(self, col):
@@ -119,15 +119,15 @@ class Board:
     def draw(self):
         for r in range(ROWS):
             for c in range(COLS):
-                cx = c*CELL_SIZE
-                cy = r*CELL_SIZE+100
+                c = c*CELL_SIZE
+                c = r*CELL_SIZE+100
 
-                pygame.draw.rect(screen, WHITE, (x,y,CELL_SIZE,CELL_SIZE),2)
-                pygame.draw.circle(screen, BLACK,(x+45,y+45),35)
+                pygame.draw.rect(screen, WHITE, (CELL_SIZE,CELL_SIZE),2)
+                pygame.draw.circle(screen, BLACK,(45,45),35)
 
                 if self.grid[r][c]:
                     pygame.draw.circle(screen,(200,0,0) if self.grid[r][c]==1 else (240,220,0),
-                        (x+45,y+45),32)
+                        (45,45),32)
         
         for r,c in self.win_cells:
             pygame.draw.circle(screen, (255,255,255),
@@ -231,6 +231,36 @@ class Game:
         ])
 
     
+def color(self):
+    return self.p1 if self.turn==1 else self.p2
+
+def move(self):
+    if self.board.full(self.col): return
+    self.board.drop(self.col,self.turn)
+
+    if self.board.check(self.turn):
+        self.over=True
+        self.winner=self.turn
+        return
+    
+    if all(self.board.full(c) for c in range(COLS)):
+        self.over=True
+        self.winner="draw"
+        return
+    
+    self.turn=2 if self.turn==1 else 1
+    self.timer=0
+
+
+
+
+
+
+
+
+
+
+
 def main():
     game = Game()
 
