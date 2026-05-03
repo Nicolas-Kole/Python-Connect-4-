@@ -363,9 +363,6 @@ def main():
                          game.state = "game"
                          game.reset()
             elif game.state == "game":
-
-
-
                 if e.type == pygame.KEYDOWN:
                     if e.key == pygame.K_LEFT:
                         game.selected_col = max(0, game.selected_col - 1)
@@ -373,6 +370,10 @@ def main():
                         game.selected_col = min(COLS - 1, game.selected_col + 1)
                     if e.key == pygame.K_RETURN:
                         game.move(game.selected_col)
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                    col = e.pos[0] // CELL_SIZE
+                    game.move(col)
+
 
         screen.fill(BLACK)
 
