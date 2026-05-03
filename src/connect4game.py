@@ -198,4 +198,6 @@ class Game:
             (x+70, 50)
         ])
 
+        back = font.render("BACK", True, WHITE)
+        screen.blit(back, (10, 10))
     
