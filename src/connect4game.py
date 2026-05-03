@@ -249,12 +249,13 @@ class Game:
         screen.fill(BLACK)
 
         x = self.selected_col * CELL_SIZE
+        col_color = self.p1_color if self.turn == 1 else self.p2_color
         pygame.draw.rect(screen, WHITE, (x,100,CELL_SIZE,HEIGHT),2)
 
         self.board.draw()
         self.draw_banner()
 
-        pygame.draw.polygon(screen, WHITE, [
+        pygame.draw.polygon(screen, col_color, [
             (x+45,110),
             (x+20,80),
             (x+70,80)
