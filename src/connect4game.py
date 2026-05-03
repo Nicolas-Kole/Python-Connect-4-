@@ -255,7 +255,33 @@ class Game:
             (x+70,80)
         ])
 
+
+def get_color(self, index):
+    name, col = COLORS[index]
+
+    if name == "Random":
+        options = [c[1] for c in COLORS if c[1] and c[1] != self.p1_color]
+        return random.choice(options)
     
+    return col
+
+def select_color(self):
+    color = self.get_color(self.color_index)
+
+    # Player 1 picks
+    if self.color_turn == 1:
+        self.p1_color = color
+        self.color_turn = 2
+        self.color_index = 0
+
+    # Player 2 picks
+    else:
+        if color == self.p1_color:
+            return  # prevent duplicate colors
+
+        self.p2_color = color
+        self.state = "game" 
+
 def color(self):
     return self.p1 if self.turn==1 else self.p2
 
