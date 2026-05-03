@@ -10,7 +10,7 @@ CELL_SIZE = 90
 HEIGHT = (ROWS + 2) * CELL_SIZE
 
 WIDTH = COLS * CELL_SIZE
-HEIGHT = (ROWS + 2) * CELL_SIZE
+
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Connect 4")
@@ -43,6 +43,7 @@ big = pygame.font.SysFont(None, 60)
 class Button: 
     def __init__(self, text, x, y, w, h):
         self.rect = pygame.Rect(x, y, w, h)
+        self.text = text
 
     def draw(self):
         hover = self.rect.collidepoint(pygame.mouse.get_pos())
@@ -135,13 +136,15 @@ class Game:
         self.selected_col = 0
 
         self.vs_mode = None
-        self.cpu_diff
+        self.cpu_diff = "easy"
 
         self.game_over = False
-        self.Winner = None
-
+        self.winner = None
+        
+        self.cpu_timer = 0
         self.menu_open = False
 
+    
     def cpu_move(self):
         valid = [c for c in range(COLS) if not self.board.full(c)]
         
@@ -157,12 +160,19 @@ class Game:
     def move(self, col):
         if self.board.full(col) or self.game_over:
             return
-    
-        self.board.drop(col, self.turn) 
 
+        row = self.board.drop(col, self.turn)
+
+        if row is None:
+            return
+        
         if self.board.check_win(self.turn):
             self.game_over = True
-        
+            self.winner = self.turn
+            return
+
+        self.board.drop(col, self.turn) 
+
         self.turn = 2 if self.turn == 1 else 1
 
     def draw_banner(self):
@@ -181,6 +191,17 @@ class Game:
         t = big.render(text, True, WHITE)
         screen.blit(t, t.get_rect(center=(WIDTH//2,40)))
         
+    def update_cpu(self):
+        if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
+            self.cpu_timer += 1
+
+            if self.cpu_timer > 30:
+                col = self.cpu_move()
+                if col is not None:
+                    self.move(col)
+                self.cpu_timer = 0
+                
+ 
     def draw_game(self):
         screen.fill(BLACK)
 
@@ -198,7 +219,7 @@ class Game:
         ])
 
     def main():
-        game = Game
+        game = Game()
 
         play = Button("Play",250,200,200,60)
         tutorial = Button("Tutorial",250,280,200,60)
