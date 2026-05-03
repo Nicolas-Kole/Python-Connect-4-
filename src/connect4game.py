@@ -198,11 +198,9 @@ class Game:
                 self.move(self.selected_col)
 
 
-
     def draw_banner(self):
         if not self.game_over:
             return
-        
         if self.winner == "draw":
             pygame.draw.rect(screen, self.p1_color, (0,0,WIDTH//2,80))
             pygame.draw.rect(screen, self.p2_color, (WIDTH//2,0,WIDTH//2,80))
@@ -218,15 +216,12 @@ class Game:
     def draw_pause(self):
         if not self.menu_open:
             return
-
+        
         pygame.draw.rect(screen, BLACK, (150,150,400,300))
         pygame.draw.rect(screen, WHITE, (150,150,400,300),2)
 
-        font_big = pygame.font.SysFont(None, 40)
-        text = font_big.render("PAUSED", True, WHITE)
-        screen.blit(text, (300,180))
-
-
+        t = big.render("PAUSED", True, WHITE)
+        screen.blit(t, (220,180))
 
 
     def update_cpu(self):
