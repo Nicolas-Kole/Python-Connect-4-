@@ -43,6 +43,16 @@ big = pygame.font.SysFont(None, 60)
 class Button: 
     def __init__(self, text, x, y, w, h):
         self.rect = pygame.Rect(x, y, w, h)
+
+    def draw(self):
+        hover = self.rect.collidepoint(pygame.mouse.get_pos())
+
+        pygame.draw.rect(
+            screen,
+            LIGHT_GRAY if hover else GRAY,
+            self.rect,
+            border_radius=6
+        )
         
 
 
