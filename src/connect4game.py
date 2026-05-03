@@ -364,23 +364,57 @@ def main():
             if e.type == pygame.QUIT:
                 running = False
 
-            if game.state == "menu":
-                if e.type == pygame.MOUSEBUTTONDOWN:
-                    if play.clicked(e.pos):
-                        game.state = "game"
-                    if tutorial.clicked(e.pos):
-                        game.state = "tutorial"
-                    if exit_btn.clicked(e.pos):
-                        running = False
-
-            if game.state == "game":
+            if game.state == "color_select":
                 if e.type == pygame.KEYDOWN:
                     if e.key == pygame.K_LEFT:
-                        game.selected_col = max(0, game.selected_col - 1)
+                        game.color_index = max(0, game.color_index - 1)
+           
                     if e.key == pygame.K_RIGHT:
-                        game.selected_col = min(COLS - 1, game.selected_col + 1)
+                        game.color_index = min(len(COLORS) - 1, game.color_index + 1)
+
+                    if e.key == pygame.K_UP:
+                        game.color_index = max(0, game.color_index - 6)
+
+                    if e.key == pygame.K_DOWN:
+                        game.color_index = min(len(COLORS) - 1, game.color_index + 6)
+
                     if e.key == pygame.K_RETURN:
-                        game.move(game.selected_col)
+                        game.select_color()
+
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                    mx, my = e.pos
+
+                    cols = 6
+                    size = 80
+                    start_x = 120
+                    start_y = 150
+
+                    for i in range(len(COLORS)):
+                        x = start_x + (i % cols) * (size + 10)
+                        y = start_y + (i // cols) * (size + 10)
+
+                        rect = pygame.Rect(x, y, size, size)
+
+                        if rect.collidepoint(mx, my):
+                            game.color_index = i
+                            game.select_color()
+
+                if game.state == "menu":
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        if play.clicked(e.pos):
+                            game.state = "game"
+                        if tutorial.clicked(e.pos):
+                            game.state = "tutorial"
+                        if exit_btn.clicked(e.pos):
+                            running = False
+                if game.state == "game":
+                    if e.type == pygame.KEYDOWN:
+                        if e.key == pygame.K_LEFT:
+                            game.selected_col = max(0, game.selected_col - 1)
+                        if e.key == pygame.K_RIGHT:
+                            game.selected_col = min(COLS - 1, game.selected_col + 1)
+                        if e.key == pygame.K_RETURN:
+                             game.move(game.selected_col)         
 
         screen.fill(BLACK)
 
