@@ -187,6 +187,7 @@ class Game:
 
 
         self.turn = 2 if self.turn == 1 else 1
+        self.timer = 0
 
     def draw_banner(self):
         if not self.game_over:
