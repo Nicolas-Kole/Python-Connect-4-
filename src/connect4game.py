@@ -62,19 +62,18 @@ class Button:
     def clicked(self, pos):
         return self.rect.collidepoint(pos)
 
-        
-
 
 class Board:
     def __init__(self):
         self.grid = [[0]*COLS for _ in range(ROWS)]
+        self.win_cells = []
 
     def drop(self, col, player):
         for r in reversed(range(ROWS)):
             if self.grid[r][col] == 0:
                 self.grid[r][col] = player
                 return r
-        return None
+    
 
     def full(self, col):
         return self.grid[0][col] != 0
