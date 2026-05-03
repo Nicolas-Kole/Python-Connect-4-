@@ -113,7 +113,7 @@ class Board:
 
         return False
 
-def draw(self, p1_col, p2_col):
+    def draw(self, p1_col, p2_col):
         for r in range(ROWS):
             for c in range(COLS):
                 x = c * CELL_SIZE
