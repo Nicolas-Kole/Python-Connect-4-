@@ -40,6 +40,12 @@ COLORS = [
 font = pygame.font.SysFont(None, 32)
 big = pygame.font.SysFont(None, 60)
 
+class Button: 
+    def __init__(self, text, x, y, w, h):
+        self.rect = pygame.Rect(x, y, w, h)
+        
+
+
 class Board:
     def __init__(self):
         self.grid = [[0]*COLS for _ in range(ROWS)]
