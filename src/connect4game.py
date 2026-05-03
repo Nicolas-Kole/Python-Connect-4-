@@ -189,6 +189,18 @@ class Game:
         self.turn = 2 if self.turn == 1 else 1
         self.timer = 0
 
+    def update(self):
+        if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
+            self.timer += 1
+            if self.timer > 40:
+                self.move(self.cpu_move())
+        
+        if self.mode == "timed" and not self.game_over:
+            self.timer += 1
+            if self.timer > self.limit:
+                self.move(self.selected_col)
+
+
     def draw_banner(self):
         if not self.game_over:
             return
