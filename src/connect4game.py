@@ -168,7 +168,15 @@ class Game:
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
 
-    def make_move(self):
+    def draw_game(self):
+        screen.fill(BLACK)
+
+        col_x = self.selected_col * CELL_SIZE
+        pygame.draw.rect(screen,
+            self.colors[self.turn],
+            (col_x, 100, CELL_SIZE, HEIGHT),
+            4)
+
             
 
     def start_drop(self, col):
@@ -202,13 +210,12 @@ class Game:
             if col is not None:
                 self.start_drop(col)
 
-    def draw_ui(self, screen):
-        color = RED if self.turn == 1 else YELLOW
+        center_x = col + CELL_SIZE // 2
 
-        pygame.draw.polygon(screen, color, [
-            (self.selected_col * CELL_SIZE + CELL_SIZE // 2, 70),
-            (self.selected_col * CELL_SIZE + 20, 40),
-            (self.selected_col * CELL_SIZE + CELL_SIZE - 20, 40)
+        pygame.draw.polygon(screen, self.colors[self.turn], [
+            (center_x, 70),                 
+            (center_x - 18, 40),           
+            (center_x + 18, 40)            
         ])
 
         if self.game_over:
