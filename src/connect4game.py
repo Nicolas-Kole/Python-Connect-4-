@@ -200,4 +200,7 @@ class Game:
 
         back = font.render("BACK", True, WHITE)
         screen.blit(back, (10, 10))
+
+        clear = font.render("CLEAR", True, WHITE)
+        screen.blit(clear, (WIDTH - 100, 10))
     
