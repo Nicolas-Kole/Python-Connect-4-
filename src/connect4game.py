@@ -181,8 +181,15 @@ class Game:
         t = big.render(text, True, WHITE)
         screen.blit(t, t.get_rect(center=(WIDTH//2,40)))
         
+    def draw_game(self):
+        screen.fill(BLACK)
 
+        x = self.selected_col * CELL_SIZE
 
+        pygame.draw.rect(screen, WHITE, (x,100,CELL_SIZE,HEIGHT),2)
+
+        self.board.draw()
+        self.board.banner()
 
 
 
