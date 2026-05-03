@@ -219,7 +219,21 @@ class Game:
 
         t = big.render(text, True, WHITE)
         screen.blit(t, t.get_rect(center=(WIDTH//2,40)))
-        
+
+    def draw_pause(self):
+        if not self.menu_open:
+            return
+
+        pygame.draw.rect(screen, BLACK, (150,150,400,300))
+        pygame.draw.rect(screen, WHITE, (150,150,400,300),2)
+
+        font_big = pygame.font.SysFont(None, 40)
+        text = font_big.render("PAUSED", True, WHITE)
+        screen.blit(text, (300,180))
+
+
+
+
     def update_cpu(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
             self.cpu_timer += 1
