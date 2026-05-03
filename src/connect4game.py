@@ -277,6 +277,33 @@ class Game:
                         col = e.pos[0] // CELL_SIZE
                         game.move(col) 
 
+        screen.fill(BLACK)
+
+        if game.state == "menu":
+            play_btn.draw()
+            exit_btn.draw()
+
+        elif game.state == "mode":
+            classic_btn.draw()
+            timed_btn.draw()
+
+        elif game.state == "vs":
+            pvp_btn.draw()
+            cpu_btn.draw()
+
+        elif game.state == "cpu":
+            easy_btn.draw()
+            med_btn.draw()
+            hard_btn.draw()
+
+        elif game.state == "game":
+            game.update()
+            game.draw_game()
+
+        pygame.display.flip()
+
+                
+
 
 
     
