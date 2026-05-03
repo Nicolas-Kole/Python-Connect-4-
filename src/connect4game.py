@@ -191,11 +191,12 @@ class Game:
             self.timer += 1
             if self.timer > 40:
                 self.move(self.cpu_move())
-        
+
         if self.mode == "timed" and not self.game_over:
             self.timer += 1
             if self.timer > self.limit:
                 self.move(self.selected_col)
+
 
 
     def draw_banner(self):
