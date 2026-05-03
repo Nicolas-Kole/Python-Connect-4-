@@ -142,5 +142,21 @@ class Game:
 
         self.menu_open = False
 
+    def cpu_move(self):
+        valid = [c for c in range(COLS) if not self.board.full(c)]
+        
+        if self.cpu_diff == "easy":
+            return random.choice(valid)
+
+        if self.cpu_diff == "intermediate":
+            return valid[0] 
+        
+        if self.cpu_diff == "advanced":
+            return random.choice(valid[:2]) 
+
+
+
+
+
 
 
