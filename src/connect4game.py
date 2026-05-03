@@ -146,4 +146,45 @@ class Game:
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
 
- 
+    def cpu_move(self):
+        valid = [c for c in range(COLS) if not self.board.full(c)]
+
+        if self.cpu_diff == "easy":
+            return random.choice(valid)
+
+        if self.cpu_diff == "intermediate":
+            return random.choice(valid[:3])
+
+        if self.cpu_diff == "advanced":
+            return valid[3] if len(valid) > 3 else random.choice(valid)
+
+    def move(self, col):
+        if self.board.full(col) or self.game_over:
+            return
+
+        self.board.drop(col, self.turn)
+
+        if self.board.check_win(self.turn):
+            self.game_over = True
+            self.winner = self.turn
+            return
+
+        if self.board.is_draw():
+            self.game_over = True
+            self.winner = "draw"
+
+        self.switch_turn()
+        self.cpu_timer = 0
+
+    def update(self):
+        if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
+            self.cpu_timer += 1
+            if self.cpu_timer > 30:
+                col = self.cpu_move()
+                self.move(col)
+                self.cpu_timer = 0
+
+    def draw_game(self):
+        screen.fill(BLACK)
+
+        self.board.draw()
