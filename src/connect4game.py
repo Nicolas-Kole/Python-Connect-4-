@@ -93,19 +93,29 @@ class Board:
 
         return False
 
-    def draw(self, p1_col, p2_col):
+    def draw(self):
         for r in range(ROWS):
             for c in range(COLS):
                 x = c * CELL_SIZE
                 y = r * CELL_SIZE + 100
 
-                pygame.draw.rect(screen, WHITE, (x, y, CELL_SIZE, CELL_SIZE))
-                pygame.draw.circle(screen, BLACK, (x + 45, y + 45), 35)
+                pygame.draw.rect(screen, BLUE, (x, y, CELL_SIZE, CELL_SIZE))
 
-                if self.grid[r][c] == 1:
-                    pygame.draw.circle(screen, p1_col, (x + 45, y + 45), 32)
-                elif self.grid[r][c] == 2:
-                    pygame.draw.circle(screen, p2_col, (x + 45, y + 45), 32)
+                pygame.draw.circle(screen, BLACK, (x+45, y+45), 35)
+
+                val = self.grid[r][c]
+                if val != 0:
+                    color = RED if val == 1 else YELLOW
+
+                    pygame.draw.circle(screen, color, (x+45, y+45), 32)
+                    pygame.draw.circle(screen, (255,255,255), (x+35, y+35), 10)
+           
+            for r,c in self.win_cells:
+                 x = c * CELL_SIZE + 45
+                 y = r * CELL_SIZE + 145
+                 pygame.draw.line(screen, WHITE, (x-20,y-20),(x+20,y+20),3)
+                 pygame.draw.line(screen, WHITE, (x+20,y-20),(x-20,y+20),3)
+
 
 
 class Game:
