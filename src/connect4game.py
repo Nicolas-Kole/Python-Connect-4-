@@ -212,7 +212,7 @@ class Game:
         self.draw_banner()
 
         pygame.draw.polygon(screen, WHITE, [
-            (x+45,60),
+            (x+45,110),
             (x+20,90),
             (x+70,90)
         ])
