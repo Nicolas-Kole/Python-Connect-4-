@@ -165,6 +165,22 @@ class Game:
         
         self.turn = 2 if self.turn == 1 else 1
 
+    def draw_banner(self):
+        if not self.game_over:
+            return
+        
+        if self.winner == "draw":
+            pygame.draw.rect(screen, self.colors[1], (0,0,WIDTH//2,80))
+            pygame.draw.rect(screen, self.colors[2], (WIDTH//2,0,WIDTH//2,80))
+            text = "DRAW"
+        else:
+            col = self.colors[self.winner]
+            pygame.draw.rect(screen, col, (0,0,WIDTH,80))
+            text = f"PLAYER {self.winner} WINS"
+        
+        t = big.render(text, True, WHITE)
+        screen.blit(t, t.get_rect(center=(WIDTH//2,40)))
+        
 
 
 
