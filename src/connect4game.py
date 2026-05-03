@@ -60,6 +60,12 @@ class Button:
         t = font.render(self.text, True, WHITE)
         screen.blit(t, t.get_rect(center=self.rect.center))
     
+    def draw(self):
+        hover = self.rect.collidepoint(pygame.mouse.get_pos())
+        pygame.draw.rect(screen, LIGHT_GRAY if hover else GRAY, self.rect, border_radius=8)
+        t = font.render(self.text, True, WHITE)
+        screen.blit(t, t.get_rect(center=self.rect.center))
+    
     def clicked(self, pos):
         return self.rect.collidepoint(pos)
 
@@ -113,8 +119,8 @@ class Board:
     def draw(self):
         for r in range(ROWS):
             for c in range(COLS):
-                x = c*CELL_SIZE
-                y = r*CELL_SIZE+100
+                cx = c*CELL_SIZE
+                cy = r*CELL_SIZE+100
 
                 pygame.draw.rect(screen, WHITE, (x,y,CELL_SIZE,CELL_SIZE),2)
                 pygame.draw.circle(screen, BLACK,(x+45,y+45),35)
@@ -147,7 +153,12 @@ class Game:
         self.cpu_timer = 0
         self.menu_open = False
 
-    
+    def reset(self):
+        self.board.reset()
+        self.turn = 1
+        self.selected_col = 0
+        self.menu_open = False
+
     def cpu_move(self):
         valid = [c for c in range(COLS) if not self.board.full(c)]
         
@@ -208,7 +219,6 @@ class Game:
         screen.fill(BLACK)
 
         x = self.selected_col * CELL_SIZE
-
         pygame.draw.rect(screen, WHITE, (x,100,CELL_SIZE,HEIGHT),2)
 
         self.board.draw()
