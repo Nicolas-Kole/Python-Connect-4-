@@ -213,6 +213,21 @@ class Game:
                 if e.type == pygame.QUIT:
                     running = False
 
+                if game.state == "menu":
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                         if play.clicked(e.pos):
+                              game.state = "game"
+                         if tutorial.clicked(e.pos):
+                             game.state = "tutorial" 
+                         if exit.clicked(e.pos): 
+                             running = False     
+                          
+
+                             
+
+
+            
+
 
 
 
