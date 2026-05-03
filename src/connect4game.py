@@ -16,30 +16,16 @@ pygame.display.set_caption("Connect 4")
 
 clock = pygame.time.Clock()
 
-WHITE = (240, 240, 240)
+BLUE = (30, 60, 200)
 BLACK = (20, 20, 20)
+RED = (220, 50, 50)
+YELLOW = (240, 220, 0)
+WHITE = (240, 240, 240)
 GRAY = (80, 80, 80)
-LIGHT_GRAY = (160, 160, 160)
-HIGHLIGHT = (220, 220, 220)
-
-COLORS = [
-    ("Red", (220, 50, 50)),
-    ("Orange", (255, 140, 0)),
-    ("Yellow", (240, 220, 0)),
-    ("Green", (40, 200, 80)),
-    ("Blue", (50, 120, 255)),
-    ("Purple", (160, 60, 200)),
-    ("Pink", (255, 105, 180)),
-    ("Magenta", (255, 0, 255)),
-    ("Dark Gray", (60, 60, 60)),
-    ("Brown", (120, 70, 30)),
-    ("Cyan", (0, 200, 200)),
-    ("Random", None)
-]
+LIGHT_GRAY = (150, 150, 150)
 
 font = pygame.font.SysFont(None, 32)
-big = pygame.font.SysFont(None, 60)
-
+big = pygame.font.SysFont(None, 64)
 
 class Button:
     def __init__(self, text, x, y, w, h):
