@@ -116,22 +116,20 @@ class Board:
 
         return False
 
-    def draw(self):
+def draw(self, p1_col, p2_col):
         for r in range(ROWS):
             for c in range(COLS):
-                c = c*CELL_SIZE
-                c = r*CELL_SIZE+100
+                x = c * CELL_SIZE
+                y = r * CELL_SIZE + 100
 
-                pygame.draw.rect(screen, WHITE, (CELL_SIZE,CELL_SIZE),2)
-                pygame.draw.circle(screen, BLACK,(45,45),35)
+                pygame.draw.rect(screen, WHITE, (x, y, CELL_SIZE, CELL_SIZE))
+                pygame.draw.circle(screen, BLACK, (x+45, y+45), 35)
 
-                if self.grid[r][c]:
-                    pygame.draw.circle(screen,(200,0,0) if self.grid[r][c]==1 else (240,220,0),
-                        (45,45),32)
-        
-        for r,c in self.win_cells:
-            pygame.draw.circle(screen, (255,255,255),
-                (c*CELL_SIZE+45, r*CELL_SIZE+145), 10)
+                if self.grid[r][c] == 1:
+                    pygame.draw.circle(screen, p1_col, (x+45, y+45), 32)
+                elif self.grid[r][c] == 2:
+                    pygame.draw.circle(screen, p2_col, (x+45, y+45), 32)
+
             
 class Game: 
     def __init__(self):
@@ -251,6 +249,25 @@ def move(self):
     self.turn=2 if self.turn==1 else 1
     self.timer=0
 
+def update(self):
+    if self.vs=="cpu" and self.turn==2 and not self.over:
+        self.timer+=1
+        if self.timer>40:
+            self.col=self.cpu_move()
+            self.move()
+    
+    if self.mode=="timed":
+        self.timer+=1
+        if self.timer>self.limit:
+            self.move()
+
+
+
+
+
+
+    
+ 
 
 
 
