@@ -209,14 +209,14 @@ class Game:
             return
         
         if self.winner == "draw":
-            pygame.draw.rect(screen, self.colors[1], (0,0,WIDTH//2,80))
-            pygame.draw.rect(screen, self.colors[2], (WIDTH//2,0,WIDTH//2,80))
+            pygame.draw.rect(screen, self.p1_color, (0,0,WIDTH//2,80))
+            pygame.draw.rect(screen, self.p2_color, (WIDTH//2,0,WIDTH//2,80))
             text = "DRAW"
         else:
-            col = self.colors[self.winner]
+            col = self.p1_color if self.winner == 1 else self.p2_color
             pygame.draw.rect(screen, col, (0,0,WIDTH,80))
             text = f"PLAYER {self.winner} WINS"
-        
+
         t = big.render(text, True, WHITE)
         screen.blit(t, t.get_rect(center=(WIDTH//2,40)))
         
