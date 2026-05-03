@@ -22,7 +22,7 @@ BLACK = (20, 20, 20)
 GRAY = (80, 80, 80)
 LIGHT_GRAY = (160, 160, 160)
 
-COLOR_OPTIONS = [
+COLORS = [
     ("Red", (220, 50, 50)),
     ("Orange", (255, 140, 0)),
     ("Yellow", (240, 220, 0)),
@@ -37,30 +37,9 @@ COLOR_OPTIONS = [
     ("Random", None)
 ]
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Connect 4")
+font = pygame.font.SysFont(None, 32)
+big = pygame.font.SysFont(None, 60)
 
-font = pygame.font.SysFont(None, 40)
-clock = pygame.time.Clock()
-
-class Button:
-    def __init__(self, text, x, y, w, h):
-        self.rect = pygame.Rect(x, y, w, h)
-        self.text = text
-
-    def draw(self):
-        mouse = pygame.mouse.get_pos()
-        hovered = self.rect.collidepoint(mouse)
-
-        pygame.draw.rect(screen, LIGHT_GRAY if hovered else GRAY, self.rect, border_radius=8)
-        pygame.draw.rect(screen, WHITE, self.rect, 2, border_radius=8)
-
-        label = font.render(self.text, True, WHITE)
-        screen.blit(label, label.get_rect(center=self.rect.center))
-
-    def clicked(self, pos):
-        return self.rect.collidepoint(pos)
-    
 class Board:
     def __init__(self):
         self.grid = [[0]*COLS for _ in range(ROWS)]
@@ -106,242 +85,19 @@ class Board:
 
         return False
 
-    def draw(self, screen):
-        for row in range(ROWS):
-            for col in range(COLS):
-                pygame.draw.rect(
-                    screen,
-                    BLUE,
-                    (col * CELL_SIZE, row * CELL_SIZE + 100, CELL_SIZE, CELL_SIZE)
-                )
+    def draw(self):
+        for r in range(ROWS):
+            for c in range(COLS):
+                x = c*CELL_SIZE
+                y = r*CELL_SIZE+100
 
-                pygame.draw.circle(
-                    screen,
-                    BLACK,
-                    (
-                        col * CELL_SIZE + CELL_SIZE // 2,
-                        row * CELL_SIZE + CELL_SIZE // 2 + 100
-                    ),
-                    CELL_SIZE // 2 - 5
-                )
+                pygame.draw.rect(screen, WHITE, (x,y,CELL_SIZE,CELL_SIZE),2)
+                pygame.draw.circle(screen, BLACK,(x+45,y+45),35)
 
-        for row in range(ROWS):
-            for col in range(COLS):
-                if self.grid[row][col] == 1:
-                    color = RED
-                elif self.grid[row][col] == 2:
-                    color = YELLOW
-                else:
-                    continue
-
-                pygame.draw.circle(
-                    screen,
-                    color,
-                    (
-                        col * CELL_SIZE + CELL_SIZE // 2,
-                        row * CELL_SIZE + CELL_SIZE // 2 + 100
-                    ),
-                    CELL_SIZE // 2 - 5
-                )
-
-class Game:
-    def __init__(self):
-        self.state = "menu"
-        self.reset()
-
-        self.game_mode = None
-        self.vs_mode = None
-
-        self.timer = 10
-        self.last_time = time.time()
-
-        self.falling_piece = None
-        self.winner = None
-
-    def reset(self):
-        self.board = Board()
-        self.turn = 1
-        self.selected_col = 0
-        self.game_over = False
-        self.winner = None
-
-    def switch_turn(self):
-        self.turn = 2 if self.turn == 1 else 1
-
-    def draw_game(self):
-        screen.fill(BLACK)
-
-        col_x = self.selected_col * CELL_SIZE
-        pygame.draw.rect(screen,
-            self.colors[self.turn],
-            (col_x, 100, CELL_SIZE, HEIGHT),
-            4)
-
-            
-
-    def start_drop(self, col):
-        if self.board.is_full(col) or self.falling_piece or self.game_over:
-            return
-
-
-    def cpu_move(self):
-        valid = [c for c in range(COLS) if not self.board.is_full(c)]
-        return random.choice(valid) if valid else None
-
-
-    def update_timer(self):
-        if self.game_mode == "timed" and not self.game_over:
-            if time.time() - self.last_time >= 1:
-                self.timer -= 1
-                self.last_time = time.time()
-
-            if self.timer <= 0:
-                self.start_drop(self.selected_col)
-                self.timer = 10
-
-    def update(self):
-        self.update_timer()
-        self.update_animation()
-
-        if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
-            pygame.time.delay(200)
-
-            col = self.cpu_move()
-            if col is not None:
-                self.start_drop(col)
-
-        center_x = col + CELL_SIZE // 2
-
-        pygame.draw.polygon(screen, self.colors[self.turn], [
-            (center_x, 70),                 
-            (center_x - 18, 40),           
-            (center_x + 18, 40)            
-        ])
-        self.board.draw(self.colors)
+                if self.grid[r][c]:
+                    pygame.draw.circle(screen,(200,0,0) if self.grid[r][c]==1 else (240,220,0),
+                        (x+45,y+45),32)
         
-        if self.falling:
-             fp = self.falling
-             pygame.draw.circle(screen,
-                self.colors[fp["player"]],
-                (fp["col"]*CELL_SIZE + CELL_SIZE//2, int(fp["y"])),
-                CELL_SIZE//2 - 10)
-
-                            
-                                
-
-        
-        
-        
-        if self.game_over:
-            if self.winner == "draw":
-                text = "Draw!"
-            elif self.vs_mode == "cpu" and self.winner == 2:
-                text = "CPU Wins!"
-            else:
-                text = f"Player {self.winner} Wins!"
-        else:
-            if self.vs_mode == "cpu" and self.turn == 2:
-                text = "CPU's Turn"
-            else:
-                text = f"Player {self.turn}'s Turn"
-
-        label = font.render(text, True, WHITE)
-        screen.blit(label, label.get_rect(center=(WIDTH // 2, 20)))
-
-        if self.game_mode == "timed":
-            t = font.render(f"Time: {self.timer}", True, WHITE)
-            screen.blit(t, (10, 10))
-
-
-
-def main():
-    game = Game()
-
-    play_btn = Button("Play", 250, 200, 200, 50)
-    classic_btn = Button("Classic", 250, 200, 200, 50)
-    timed_btn = Button("Timed", 250, 280, 200, 50)
-    
-    pvp_btn = Button("PVP", 250, 200, 200, 50)
-    cpu_btn = Button("CPU", 250, 280, 200, 50)
-    
-    easy_btn = Button("Easy", 250, 200, 200, 50)
-    medium_btn = Button("Medium", 250, 270, 200, 50)
-    hard_btn = Button("Hard", 250, 340, 200, 50)
-
-    running = True
-    while running:
-        clock.tick(60)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-            if game.state == "menu":
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if play_btn.clicked(event.pos):
-                        game.state = "select_mode"
-
-            elif game.state == "select_mode":
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if classic_btn.clicked(event.pos):
-                        game.game_mode = "classic"
-                        game.state = "select_vs"
-
-                    if timed_btn.clicked(event.pos):
-                        game.game_mode = "timed"
-                        game.state = "select_vs"
-
-            elif game.state == "select_vs":
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if pvp_btn.clicked(event.pos):
-                        game.vs_mode = "pvp"
-                        game.reset()
-                        game.state = "game"
-
-                    if cpu_btn.clicked(event.pos):
-                        game.vs_mode = "cpu"
-                        game.reset()
-                        game.state = "game"
-            
-
-            elif game.state == "game":
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        game.selected_col = max(0, game.selected_col - 1)
-
-                    if event.key == pygame.K_RIGHT:
-                        game.selected_col = min(COLS - 1, game.selected_col + 1)
-
-                    if event.key == pygame.K_RETURN:
-                        game.make_move()       
-
-        screen.fill(BLACK)
-
-        if game.state == "menu":
-            title = font.render("Connect 4", True, WHITE)
-            screen.blit(title, title.get_rect(center=(WIDTH // 2, 100)))
-            play_btn.draw(screen)
-
-        elif game.state == "game":
-            game.board.draw(screen)
-            game.draw_ui(screen)
-
-            if game.falling_piece:
-                fp = game.falling_piece
-                color = RED if fp["player"] == 1 else YELLOW
-
-                pygame.draw.circle(
-                    screen,
-                    color,
-                    (fp["col"] * CELL_SIZE + CELL_SIZE // 2, int(fp["y"])),
-                    CELL_SIZE // 2 - 5
-                )
-
-            game.update()
-
-        pygame.display.flip()
- 
-    pygame.quit()
-
-
-if __name__ == "__main__":
-    main()
+        for r,c in self.win_cells:
+            pygame.draw.circle(screen, (255,255,255),
+                (c*CELL_SIZE+45, r*CELL_SIZE+145), 10)
