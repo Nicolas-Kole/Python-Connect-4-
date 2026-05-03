@@ -53,6 +53,15 @@ class Button:
             self.rect,
             border_radius=6
         )
+
+        pygame.draw.rect(screen, WHITE, self.rect, 2, border_radius=6)
+
+        t = font.render(self.text, True, WHITE)
+        screen.blit(t, t.get_rect(center=self.rect.center))
+    
+    def clicked(self, pos):
+        return self.rect.collidepoint(pos)
+
         
 
 
