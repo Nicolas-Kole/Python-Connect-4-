@@ -185,7 +185,7 @@ class Game:
             return
 
         self.turn = 2 if self.turn == 1 else 1
-        self.timer = 0
+        self.cpu_timer = 0
 
     def update(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
