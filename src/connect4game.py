@@ -200,6 +200,39 @@ class Game:
             if self.timer > self.limit:
                 self.move(self.selected_col)
 
+    def  draw_color_select(self):
+        screen.fill(BLACK) 
+        title = big.render(f"Select Color - Player {self.color_turn}", True, WHITE)
+        screen.blit(title, (120, 60))
+
+        cols = 6
+        size = 80
+        start_x = 120
+        start_y = 150
+
+        for i, (name, col) in enumerate(COLORS):
+            x = start_x + (i % cols) * (size + 10)
+            y = start_y + (i // cols) * (size + 10)
+
+            rect = pygame.Rect(x, y, size, size)
+
+            selected = (i == self.color_index)
+
+        pygame.draw.rect(
+            screen,
+            LIGHT_GRAY if selected else GRAY,
+            rect,
+            border_radius=8
+        )
+        
+        if col:
+            pygame.draw.circle(screen, col, rect.center, 22)
+        else:
+            pygame.draw.circle(screen, (200,200,200), rect.center, 22)
+
+        label = font.render(name, True, WHITE)
+        screen.blit(label, (x, y + 60))
+
 
     def draw_banner(self):
         if not self.game_over:
