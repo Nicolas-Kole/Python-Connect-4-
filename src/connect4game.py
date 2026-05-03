@@ -191,6 +191,11 @@ class Game:
         self.board.draw()
         self.board.banner()
 
+        pygame.draw.polygon(screen, WHITE, [
+            (x+45,60),
+            (x+20,90),
+            (x+70,90)
+        ])
 
 
 
