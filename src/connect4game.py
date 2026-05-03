@@ -405,6 +405,18 @@ def main():
             game.update_cpu()
             game.draw_game()
 
+            turn_text = font.render(
+                f"Turn: Player {game.turn}", True, WHITE
+            )
+            screen.blit(turn_text, (20, 20))
+
+            if not game.game_over and game.board.is_draw():
+                game.game_over = True
+                game.winner = "draw"
+        elif game.state == "tutorial":
+            t = big.render("Tutorial Coming Soon", True, WHITE)
+            screen.blit(t, (100, 200)) 
+
         pygame.display.flip()
 
     pygame.quit()
