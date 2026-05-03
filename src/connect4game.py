@@ -230,10 +230,27 @@ class Game:
                             game.selected_col = min(COLS-1, game.selected_col+1)
                         if e.key == pygame.K_RETURN:
                             game.move(game.selected_col)
+                
+                screen.fill(BLACK)
+                
+                if game.state == "menu":
+                    play.draw()
+                    tutorial.draw()
+                    exit.draw()
+                
+                elif game.state == "game":
+                    game.draw_game()
 
-
-
-                          
+                    if game.vs_mode == "cpu" and game.turn == 2:
+                        time.sleep(0.2)
+                        game.move(game.cpu_move())
+                
+                elif game.state == "tutorial":
+                    t = big.render("TUTORIAL PLACEHOLDER", True, WHITE)
+                    screen.blit(t,(100,200))
+                
+                pygame.display.flip()
+            
 
                              
 
