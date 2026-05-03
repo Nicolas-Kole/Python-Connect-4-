@@ -44,7 +44,6 @@ class Button:
         return self.rect.collidepoint(pos)
 
 class Board:
-   class Board:
     def __init__(self):
         self.reset()
         self.win_cells = []
