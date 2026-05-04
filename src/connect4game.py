@@ -179,6 +179,8 @@ class Game:
 
         self.clear_rect = pygame.Rect(WIDTH - 110, 10, 100, 30)
 
+        self.back_rect = pygame.Rect(10, 10, 80, 30)
+
     def update(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
             self.cpu_timer += 1
@@ -201,6 +203,7 @@ class Game:
         screen.blit(font.render("BACK", True, WHITE), (15, 12))
 
         clear = font.render("CLEAR", True, WHITE)
+        pygame.draw.rect(screen, GRAY, self.clear_rect, border_radius=6)
         screen.blit(clear, (WIDTH - 100, 10))
 
         if self.game_over:
@@ -293,7 +296,7 @@ def main():
                         elif back_btn.clicked(e.pos): 
                             game.state = "vs"
                     
-                    elif game.state == "game":
+                elif game.state == "game":
                         if e.type == pygame.KEYDOWN:
                             if e.key == pygame.K_LEFT:
                                 game.selected_col = max(0, game.selected_col - 1)
@@ -306,8 +309,11 @@ def main():
                             col = e.pos[0] // CELL_SIZE
                             game.move(col)
 
-                            if game.draw_game().collidepoint(e.pos):
+                            if game.back_rect.collidepoint(e.pos):
                                 game.state = "menu"
+                            
+                            if game.clear_rect.collidepoint(e.pos):
+                                game.reset()
                         
                     
         screen.fill(BLACK)
