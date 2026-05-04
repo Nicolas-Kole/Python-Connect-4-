@@ -136,6 +136,10 @@ class Game:
 
         self.cpu_timer = 0
 
+        self.turn_start_time = time.time()
+        self.turn_limit = 10
+
+
     def reset(self):
         self.board.reset()
         self.turn = 1
