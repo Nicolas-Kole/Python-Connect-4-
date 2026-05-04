@@ -170,7 +170,7 @@ class Game:
                     return True
         return False
                
-               
+
     def reset(self):
         self.board.reset()
         self.turn = 1
@@ -201,7 +201,7 @@ class Game:
         if self.cpu_diff == "intermediate":
             for col in valid:
                 temp = simulate_drop(col, 2)
-                if self.board.check_win_grid(temp, 2):
+                if self.check_win_grid(temp, 2):
                     return col
             
             for col in valid:
@@ -214,16 +214,16 @@ class Game:
 
         if self.cpu_diff == "advanced":
             best_col = None
-            best_scrore = -999
+            best_score = -999
 
             for col in valid:
                 temp = simulate_drop(col, 2)
 
                 score = 0
 
-                if self.board.check_win_grid(temp, 2):
+                if self.check_win_grid(temp, 2):
                     return col
-                if self.board.check_win_grid(temp, 2):
+                if self.check_win_grid(temp, 2):
                     return col
                 if self.board.check_win_grid(temp, 1):
                     score += 80
@@ -231,8 +231,8 @@ class Game:
                     score += 20
                 elif col in [2, 4]:
                     scrore += 10
-                if score > best_scrore:
-                    best_scrore = score
+                if score > best_score:
+                    best_score = score
                     best_col = col
             return best_col if best_col is not None else random.choice(valid)
             
