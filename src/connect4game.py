@@ -191,6 +191,7 @@ class Game:
 
         x = self.selected_col * CELL_SIZE
         color = RED if self.turn == 1 else YELLOW
+        pygame.draw.polygon(screen, color, [(x+45, 80), (x+20, 50), (x+70, 50)])
 
         pygame.draw.polygon(screen, color, [
             (x+45, 80),
@@ -198,8 +199,10 @@ class Game:
             (x+70, 50)
         ])
 
-        back = font.render("BACK", True, WHITE)
-        screen.blit(back, (10, 10))
+        
+        back_rect = pygame.Rect(10, 10, 80, 30)
+        pygame.draw.rect(screen, GRAY, back_rect, border_radius=6)
+        screen.blit(font.render("BACK", True, WHITE), (15, 12))
 
         clear = font.render("CLEAR", True, WHITE)
         screen.blit(clear, (WIDTH - 100, 10))
@@ -209,6 +212,7 @@ class Game:
             t = big.render(text, True, WHITE)
             screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
 
+        return back_rect
 
 def main():
     game = Game()
