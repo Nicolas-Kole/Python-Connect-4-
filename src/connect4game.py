@@ -210,6 +210,13 @@ class Game:
         pygame.draw.rect(screen, GRAY, self.back_rect, border_radius=6)
         screen.blit(font.render("BACK", True, WHITE), (15, 12))
 
+
+        if  self.mode == "timed" and not self.game_over:
+            remaining = max(0, int(self.turn_limit - (time.time() - self.turn_start_time)))
+            timer_text = font.render(f"Time: {remaining}", True, WHITE)
+            screen.blit(timer_text, (WIDTH//2 - 50, 20))
+
+
         if self.game_over:
             text = "DRAW" if self.winner == "draw" else f"PLAYER {self.winner} WINS"
             t = big.render(text, True, WHITE)
