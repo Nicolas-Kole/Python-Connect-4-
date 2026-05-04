@@ -190,6 +190,12 @@ class Game:
                 col = self.cpu_move()
                 self.move(col)
                 self.cpu_timer = 0
+        if self.mode == "timed" and not self.game_over:
+            elapsed = time.time() - self.turn_start_time
+
+            if elapsed >= self.turn_limit:
+                self.move(self.selected_col)
+
 
     def draw_game(self):
         screen.fill(BLACK)
