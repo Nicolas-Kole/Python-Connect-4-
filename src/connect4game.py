@@ -233,8 +233,21 @@ class Game:
 
 
         if self.game_over:
-            text = "DRAW" if self.winner == "draw" else f"PLAYER {self.winner} WINS"
-            t = big.render(text, True, WHITE)
+            if self.winner == "draw":
+                text = "DRAW"
+                color = WHITE
+
+            elif self.winner == 1:
+                color = RED
+                text = "PLAYER 1 WINS"
+            elif self.winner == 2:
+                if self.vs_mode == "cpu":
+                    text = "CPU WINS"
+                else:
+                    text = "PLAYER 2 WINS"
+                color = YELLOW
+           
+            t = big.render(text, True, color)
             screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
 
         return self.back_rect
