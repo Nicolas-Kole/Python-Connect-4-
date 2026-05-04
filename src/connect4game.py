@@ -162,9 +162,6 @@ class Game:
         if self.board.full(col) or self.game_over:
             return
         
-        success = self.board.drop(col, self.turn)
-        if not success:
-            return
 
         self.board.drop(col, self.turn)
 
@@ -179,6 +176,8 @@ class Game:
 
         self.switch_turn()
         self.cpu_timer = 0
+
+        self.clear_rect = pygame.Rect(WIDTH - 110, 10, 100, 30)
 
     def update(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
