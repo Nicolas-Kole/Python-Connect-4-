@@ -56,7 +56,7 @@ class Board:
         for r in reversed(range(ROWS)):
             if self.grid[r][col] == 0:
                 self.grid[r][col] = player
-                return r
+                return True
         return None
 
     def full(self, col):
@@ -161,6 +161,10 @@ class Game:
     def move(self, col):
         if self.board.full(col) or self.game_over:
             return
+        
+        success = self.board.drop(col, self.turn)
+        if not success:
+            return
 
         self.board.drop(col, self.turn)
 
@@ -193,8 +197,6 @@ class Game:
         color = RED if self.turn == 1 else YELLOW
         pygame.draw.polygon(screen, color, [(x+45, 80), (x+20, 50), (x+70, 50)])
 
-
-        
         self.back_rect = pygame.Rect(10, 10, 80, 30)
         pygame.draw.rect(screen, GRAY, self.back_rect, border_radius=6)
         screen.blit(font.render("BACK", True, WHITE), (15, 12))
@@ -246,44 +248,67 @@ def main():
                 
                 elif game.state == "mode":
                     if e.type == pygame.MOUSEBUTTONDOWN:
-                        if classic_btn.clicked(e.pos):
-                            game.mode = "classic"
-                            game.state = "vs"
-                        if timed_btn.clicked(e.pos):
-                            game.mode = "timed"
-                            game.state = "vs"
-                        elif cpu_btn.clicked(e.pos):
-                            game.vs_mode = "cpu"
-                            game.state = "cpu" 
+                       if classic_btn.clicked(e.pos):
+                           game.mode = "classic"
+                           game.state = "vs"
+                       elif timed_btn.clicked(e.pos):
+                           game.mode = "timed"
+                           game.state = "vs"
+                       elif back_btn.clicked(e.pos):
+                           game.state = "menu"
+                           
 
- 
                 elif game.state == "vs":
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         if pvp_btn.clicked(e.pos):
                             game.vs_mode = "pvp"
                             game.reset()
                             game.state = "game"
-                        elif back_btn.clicked(e.pos):
-                           game.state = "vs"  
-        
                         elif cpu_btn.clicked(e.pos):
                             game.vs_mode = "cpu"
                             game.state = "cpu"
-                        if back_btn.clicked(e.pos):
+                        elif back_btn.clicked(e.pos):
                             game.state = "mode"
 
                 elif game.state == "cpu":
-                    if e.type == pygame.KEYDOWN:
-                        if e.key == pygame.K_LEFT:
-                            game.selected_col = max(0, game.selected_col - 1)
-                        elif e.key == pygame.K_RIGHT:
-                            game.selected_col = min(COLS - 1, game.selected_col + 1)
-                        elif e.key == pygame.K_RETURN:
-                            game.move(game.selected_col)
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        
+                        if easy_btn.clicked(e.pos):
+                            game.cpu_diff = "easy"
+                            game.reset()
+                            game.vs_mode = "cpu"
+                            game.state = "game"
+                        
+                        elif med_btn.clicked(e.pos):
+                            game.cpu_diff = "intermediate"
+                            game.reset()
+                            game.vs_mode = "cpu"
+                            game.state = "game"
+                        
+                        elif hard_btn.clicked(e.pos):
+                            game.cpu_diff = "advanced"
+                            game.reset()
+                            game.vs_mode = "cpu"
+                            game.state = "game"
+                        
+                        elif back_btn.clicked(e.pos): 
+                            game.state = "vs"
+                    
+                    elif game.state == "game":
+                            if e.type == pygame.KEYDOWN:
+                                if e.key == pygame.K_LEFT:
+                                    game.selected_col = max(0, game.selected_col - 1)
+                            elif e.key == pygame.K_RIGHT:
+                                    game.selected_col = min(COLS - 1, game.selected_col + 1)
+                            elif e.key == pygame.K_RETURN:
+                                    game.move(game.selected_col)
                     
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         col = e.pos[0] // CELL_SIZE
                         game.move(col)  
+
+                        if game.draw_game().collidepoint(e.pos):
+                            game.state = "menu"
 
 
         screen.fill(BLACK)
@@ -293,14 +318,17 @@ def main():
             exit_btn.draw()
 
         elif game.state == "mode":
+            back_btn.draw()
             classic_btn.draw()
             timed_btn.draw()
 
         elif game.state == "vs":
+            back_btn.draw()
             pvp_btn.draw()
             cpu_btn.draw()
 
         elif game.state == "cpu":
+            back_btn.draw()
             easy_btn.draw()
             med_btn.draw()
             hard_btn.draw()
