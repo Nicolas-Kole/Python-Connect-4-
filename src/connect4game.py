@@ -209,29 +209,30 @@ class Game:
             t = big.render(text, True, WHITE)
             screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
 
-    def main():
-        game = Game()
 
-        play_btn = Button("PLAY", 250, 200, 200, 60)
-        exit_btn = Button("EXIT", 250, 300, 200, 60)
+def main():
+    game = Game()
+
+    play_btn = Button("PLAY", 250, 200, 200, 60)
+    exit_btn = Button("EXIT", 250, 300, 200, 60)
 
 
-        classic_btn = Button("CLASSIC", 250, 200, 200, 60)
-        timed_btn = Button("TIMED", 250, 300, 200, 60)
+    classic_btn = Button("CLASSIC", 250, 200, 200, 60)
+    timed_btn = Button("TIMED", 250, 300, 200, 60)
 
-        pvp_btn = Button("VS PLAYER", 250, 200, 200, 60)
-        cpu_btn = Button("VS CPU", 250, 300, 200, 60)
+    pvp_btn = Button("VS PLAYER", 250, 200, 200, 60)
+    cpu_btn = Button("VS CPU", 250, 300, 200, 60)
 
-        easy_btn = Button("EASY", 250, 200, 200, 60)
-        med_btn = Button("INTERMEDIATE", 250, 300, 200, 60)
-        hard_btn = Button("ADVANCED", 250, 400, 200, 60)
+    easy_btn = Button("EASY", 250, 200, 200, 60)
+    med_btn = Button("INTERMEDIATE", 250, 300, 200, 60)
+    hard_btn = Button("ADVANCED", 250, 400, 200, 60)
 
-        running = True
+    running = True
 
-        while running:
-            clock.tick(60)
+    while running:
+        clock.tick(60)
 
-            for e in pygame.event.get():
+        for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     running = False
 
@@ -247,7 +248,7 @@ class Game:
                         if classic_btn.clicked(e.pos):
                             game.mode = "classic"
                             game.state = "vs"
-                    if timed_btn.clicked(e.pos):
+                        if timed_btn.clicked(e.pos):
                             game.mode = "timed"
                             game.state = "vs" 
                 
@@ -257,8 +258,8 @@ class Game:
                             game.vs_mode = "pvp"
                             game.reset()
                             game.state = "game"
-
-                    if cpu_btn.clicked(e.pos):
+        
+                        elif cpu_btn.clicked(e.pos):
                             game.vs_mode = "cpu"
                             game.state = "cpu"
                 
@@ -266,16 +267,15 @@ class Game:
                     if e.type == pygame.KEYDOWN:
                         if e.key == pygame.K_LEFT:
                             game.selected_col = max(0, game.selected_col - 1)
-
-                    if e.key == pygame.K_RIGHT:
+                        elif e.key == pygame.K_RIGHT:
                             game.selected_col = min(COLS - 1, game.selected_col + 1)
-
-                    if e.key == pygame.K_RETURN:
+                        elif e.key == pygame.K_RETURN:
                             game.move(game.selected_col)
-
+                    
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         col = e.pos[0] // CELL_SIZE
-                        game.move(col) 
+                        game.move(col)  
+
 
         screen.fill(BLACK)
 
@@ -301,6 +301,11 @@ class Game:
             game.draw_game()
 
         pygame.display.flip()
+
+    pygame.quit()
+
+if __name__ == "__main__":
+     main()
 
                 
 
