@@ -196,10 +196,17 @@ class Game:
             elapsed = time.time() - self.turn_start_time
 
             if elapsed >= self.turn_limit:
-                valid_cols = [c for c in range(COLS) if not self.board.full(c)]
-                if valid_cols:
-                    self.selected_col = random.choice(valid_cols)
-                self.move(self.selected_col)
+                if not self.board.full(self.selected_col):
+                    self.move(self.selected_col)
+                else:
+                    valid_cols = [c for c in range(COLS) if not self.board.full(c)]
+
+                    if valid_cols:
+                        fallback_col = random.choice(valid_cols)
+                        self.selected_col = fallback_col
+                        self.move(fallback_col)
+
+                self.move(fallback_col)
 
 
     def draw_game(self):
