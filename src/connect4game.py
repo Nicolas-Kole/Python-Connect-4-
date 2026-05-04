@@ -195,8 +195,8 @@ class Game:
 
 
         
-        back_rect = pygame.Rect(10, 10, 80, 30)
-        pygame.draw.rect(screen, GRAY, back_rect, border_radius=6)
+        self.back_rect = pygame.Rect(10, 10, 80, 30)
+        pygame.draw.rect(screen, GRAY, self.back_rect, border_radius=6)
         screen.blit(font.render("BACK", True, WHITE), (15, 12))
 
         clear = font.render("CLEAR", True, WHITE)
@@ -207,7 +207,7 @@ class Game:
             t = big.render(text, True, WHITE)
             screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
 
-        return back_rect
+        return self.back_rect
 
 def main():
     game = Game()
@@ -256,7 +256,7 @@ def main():
                             game.vs_mode = "cpu"
                             game.state = "cpu" 
 
-                
+ 
                 elif game.state == "vs":
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         if pvp_btn.clicked(e.pos):
