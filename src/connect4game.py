@@ -193,11 +193,6 @@ class Game:
         color = RED if self.turn == 1 else YELLOW
         pygame.draw.polygon(screen, color, [(x+45, 80), (x+20, 50), (x+70, 50)])
 
-        pygame.draw.polygon(screen, color, [
-            (x+45, 80),
-            (x+20, 50),
-            (x+70, 50)
-        ])
 
         
         back_rect = pygame.Rect(10, 10, 80, 30)
@@ -231,6 +226,8 @@ def main():
     med_btn = Button("INTERMEDIATE", 250, 300, 200, 60)
     hard_btn = Button("ADVANCED", 250, 400, 200, 60)
 
+    back_btn = Button("BACK", 10, 10, 100, 40)
+
     running = True
 
     while running:
@@ -254,7 +251,11 @@ def main():
                             game.state = "vs"
                         if timed_btn.clicked(e.pos):
                             game.mode = "timed"
-                            game.state = "vs" 
+                            game.state = "vs"
+                        elif cpu_btn.clicked(e.pos):
+                            game.vs_mode = "cpu"
+                            game.state = "cpu" 
+
                 
                 elif game.state == "vs":
                     if e.type == pygame.MOUSEBUTTONDOWN:
@@ -262,11 +263,15 @@ def main():
                             game.vs_mode = "pvp"
                             game.reset()
                             game.state = "game"
+                        elif back_btn.clicked(e.pos):
+                           game.state = "vs"  
         
                         elif cpu_btn.clicked(e.pos):
                             game.vs_mode = "cpu"
                             game.state = "cpu"
-                
+                        if back_btn.clicked(e.pos):
+                            game.state = "mode"
+
                 elif game.state == "cpu":
                     if e.type == pygame.KEYDOWN:
                         if e.key == pygame.K_LEFT:
