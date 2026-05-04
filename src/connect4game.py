@@ -240,7 +240,7 @@ def main():
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         if play_btn.clicked(e.pos):
                             game.state = "mode"
-                    if exit_btn.clicked(e.pos):
+                        if exit_btn.clicked(e.pos):
                             running = False
                 
                 elif game.state == "mode":
