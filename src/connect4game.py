@@ -158,7 +158,15 @@ class Game:
 
         if self.cpu_diff == "easy":
             return random.choice(valid)
+        def simulate_drop(col, player):
+            temp_grid = [row[:] for row in self.board.grid]
+            for r in reversed(range(ROWS)):
+                if temp_grid[r][col] == 0:
+                    temp_grid[r][col] = player
+                    break
+            return temp_grid
 
+                 
         if self.cpu_diff == "intermediate":
             return random.choice(valid[:3])
 
