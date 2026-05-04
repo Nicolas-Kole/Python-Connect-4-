@@ -177,8 +177,6 @@ class Game:
         self.switch_turn()
         self.cpu_timer = 0
 
-        self.back_rect = pygame.Rect(10, 10, 80, 30)
-        self.clear_rect = pygame.Rect(WIDTH - 110, 10, 100, 30)
 
     def update(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
@@ -200,10 +198,6 @@ class Game:
         self.back_rect = pygame.Rect(10, 10, 80, 30)
         pygame.draw.rect(screen, GRAY, self.back_rect, border_radius=6)
         screen.blit(font.render("BACK", True, WHITE), (15, 12))
-
-        clear = font.render("CLEAR", True, WHITE)
-        pygame.draw.rect(screen, GRAY, self.clear_rect, border_radius=6)
-        screen.blit(clear, (WIDTH - 100, 10))
 
         if self.game_over:
             text = "DRAW" if self.winner == "draw" else f"PLAYER {self.winner} WINS"
@@ -311,9 +305,6 @@ def main():
                             if game.back_rect.collidepoint(e.pos):
                                 game.state = "menu"
                             
-                            if game.clear_rect.collidepoint(e.pos):
-                                game.reset()
-                        
                     
         screen.fill(BLACK)
 
