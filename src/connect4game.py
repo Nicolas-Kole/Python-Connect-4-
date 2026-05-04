@@ -139,6 +139,17 @@ class Game:
         self.turn_start_time = time.time()
         self.turn_limit = 5
 
+    def simulate_drop(self, grid, col, player): 
+        temp = [row[:] for row in grid]
+
+        for r in reversed(range(ROWS)):
+            if temp[r][col] == 0:
+                temp[r][col] = player
+                break
+        return temp
+    
+    
+
 
     def reset(self):
         self.board.reset()
@@ -182,7 +193,29 @@ class Game:
                     
 
         if self.cpu_diff == "advanced":
-            return valid[3] if len(valid) > 3 else random.choice(valid)
+            best_col = None
+            best_scrore = -999
+
+            for col in valid:
+                temp = simulate_drop(col, 2)
+
+                score = 0
+
+                if self.board.check_win_grid(temp, 2):
+                    return col
+                if self.board.check_win_grid(temp, 2):
+                    return col
+                if self.board.check_win_grid(temp, 1):
+                    score += 80
+                if col == 3:
+                    score += 20
+                elif col in [2, 4]:
+                    scrore += 10
+                if score > best_scrore:
+                    best_scrore = score
+                    best_col = col
+            return best_col if best_col is not None else random.choice(valid)
+            
 
     def move(self, col):
         if self.board.full(col) or self.game_over:
