@@ -148,9 +148,29 @@ class Game:
                 break
         return temp
     
-    
-
-
+    def check_win_grid(self, grid, player):
+        for r in range(ROWS):
+           for c in range(COLS - 3):
+               if all(grid[r][c+i] == player for i in range(4)):
+                    return True
+       
+        for c in range(COLS):
+           for r in range(ROWS -3):
+               if all(grid[r+i][c] == player for i in range(4)):
+                   return True
+        
+        for r in range(ROWS - 3):
+            for c in range(COLS - 3):
+                if all(grid[r+i][c+i] == player for i in range(4)):
+                    return True 
+        
+        for r in range(3, ROWS):
+             for c in range(COLS - 3):
+                if all(grid[r-i][c+i] == player for i in range(4)):
+                    return True
+        return False
+               
+               
     def reset(self):
         self.board.reset()
         self.turn = 1
