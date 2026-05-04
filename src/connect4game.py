@@ -294,22 +294,22 @@ def main():
                             game.state = "vs"
                     
                     elif game.state == "game":
-                            if e.type == pygame.KEYDOWN:
-                                if e.key == pygame.K_LEFT:
-                                    game.selected_col = max(0, game.selected_col - 1)
+                        if e.type == pygame.KEYDOWN:
+                            if e.key == pygame.K_LEFT:
+                                game.selected_col = max(0, game.selected_col - 1)
                             elif e.key == pygame.K_RIGHT:
-                                    game.selected_col = min(COLS - 1, game.selected_col + 1)
+                                game.selected_col = min(COLS - 1, game.selected_col + 1)
                             elif e.key == pygame.K_RETURN:
-                                    game.move(game.selected_col)
+                                game.move(game.selected_col) 
+
+                        if e.type == pygame.MOUSEBUTTONDOWN:
+                            col = e.pos[0] // CELL_SIZE
+                            game.move(col)
+
+                            if game.draw_game().collidepoint(e.pos):
+                                game.state = "menu"
+                        
                     
-                    if e.type == pygame.MOUSEBUTTONDOWN:
-                        col = e.pos[0] // CELL_SIZE
-                        game.move(col)  
-
-                        if game.draw_game().collidepoint(e.pos):
-                            game.state = "menu"
-
-
         screen.fill(BLACK)
 
         if game.state == "menu":
