@@ -165,10 +165,21 @@ class Game:
                     temp_grid[r][col] = player
                     break
             return temp_grid
-
-                 
+        
+                
         if self.cpu_diff == "intermediate":
-            return random.choice(valid[:3])
+            for col in valid:
+                temp = simulate_drop(col, 2)
+                if self.board.check_win_grid(temp, 2):
+                    return col
+            
+            for col in valid:
+                temp = simulate_drop(col, 1)
+                if self.board.check_win_grid(temp, 1):
+                    return col
+
+            return random.choice(valid) 
+                    
 
         if self.cpu_diff == "advanced":
             return valid[3] if len(valid) > 3 else random.choice(valid)
