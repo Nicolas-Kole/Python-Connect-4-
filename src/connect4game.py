@@ -206,7 +206,7 @@ class Game:
                         self.selected_col = fallback_col
                         self.move(fallback_col)
 
-                self.move(fallback_col)
+                self.move(self.selected_col)
 
 
     def draw_game(self):
