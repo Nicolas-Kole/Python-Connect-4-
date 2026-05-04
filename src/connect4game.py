@@ -206,7 +206,7 @@ class Game:
             
             for col in valid:
                 temp = simulate_drop(col, 1)
-                if self.board.check_win_grid(temp, 1):
+                if self.check_win_grid(temp, 1):
                     return col
 
             return random.choice(valid) 
@@ -225,12 +225,12 @@ class Game:
                     return col
                 if self.check_win_grid(temp, 2):
                     return col
-                if self.board.check_win_grid(temp, 1):
+                if self.check_win_grid(temp, 1):
                     score += 80
                 if col == 3:
                     score += 20
                 elif col in [2, 4]:
-                    scrore += 10
+                    score += 10
                 if score > best_score:
                     best_score = score
                     best_col = col
