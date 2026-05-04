@@ -177,9 +177,8 @@ class Game:
         self.switch_turn()
         self.cpu_timer = 0
 
-        self.clear_rect = pygame.Rect(WIDTH - 110, 10, 100, 30)
-
         self.back_rect = pygame.Rect(10, 10, 80, 30)
+        self.clear_rect = pygame.Rect(WIDTH - 110, 10, 100, 30)
 
     def update(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
