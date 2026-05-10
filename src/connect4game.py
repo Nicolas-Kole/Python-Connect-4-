@@ -220,29 +220,41 @@ class Game:
                     return col
 
             for col in valid:
-                temp = self.simulate_drop(col, 1)
+                temp = self.simulate_drop(self.board.grid, col, 1)
 
                 if self.check_win_grid(temp, 1):
                     return col     
             
             best_col = None
             best_score = -999
+            best_cols = []
 
             for col in valid:
-                temp = simulate_drop(col, 1)
+                temp = self.simulate_drop(self.board.grid, col, 2)
 
                 score = 0
 
                 if col == 3:
-                    score += 4
+                    score += 3
                 elif col in [2,4]:
                     score += 2
+                else:
+                    score += 1
                 
                 for r in range(ROWS):
                     if temp[r][col] == 2:
                         score += r
                 
-                score += random.randint(0, 3)
+                for r in range(ROWS):
+                    for c in range(COLS):
+                        if temp[r][c] == 2:
+                            if c < COLS - 1 and temp[r][c+1] == 2:
+                                scrore += 2
+
+                            if  r < ROWS - 1 and temp[r+1][c] == 2:
+                                score += 2  
+
+                score += random.randint(0, 2)
 
                 if score > best_score:
                     best_score = score
@@ -250,7 +262,15 @@ class Game:
                 
                 elif score == best_score:
                     best_cols.append(col)
-                    return random.choice(best_cols)
+            
+            if c < COLS - 1 and temp[r][c+1] == 2:
+                   score += 2
+            if r < ROWS - 1 and temp[r+1][c] == 2:
+                    score += 2 
+            score += random.randint(0, 2)
+            
+            return random.choice(best_cols)
+
 
     def move(self, col):
         if self.board.full(col) or self.game_over:
