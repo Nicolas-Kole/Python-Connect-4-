@@ -213,29 +213,44 @@ class Game:
                     
 
         if self.cpu_diff == "advanced":
+            for col in valid:
+                temp = simulate_drop(col, 2)
+
+                if self.check_win_grid(temp, 2):
+                    return col
+
+            for col in valid:
+                temp = self.simulate_drop(col, 1)
+
+                if self.check_win_grid(temp, 1):
+                    return col     
+            
             best_col = None
             best_score = -999
 
             for col in valid:
-                temp = simulate_drop(col, 2)
+                temp = simulate_drop(col, 1)
 
                 score = 0
 
-                if self.check_win_grid(temp, 2):
-                    return col
-                if self.check_win_grid(temp, 2):
-                    return col
-                if self.check_win_grid(temp, 1):
-                    score += 80
                 if col == 3:
-                    score += 20
-                elif col in [2, 4]:
-                    score += 10
+                    score += 4
+                elif col in [2,4]:
+                    score += 2
+                
+                for r in range(ROWS):
+                    if temp[r][col] == 2:
+                        score += r
+                
+                score += random.randint(0, 3)
+
                 if score > best_score:
                     best_score = score
-                    best_col = col
-            return best_col if best_col is not None else random.choice(valid)
-            
+                    best_cols = [col]
+                
+                elif score == best_score:
+                    best_cols.append(col)
+                    return random.choice(best_cols)
 
     def move(self, col):
         if self.board.full(col) or self.game_over:
