@@ -249,7 +249,7 @@ class Game:
                     for c in range(COLS):
                         if temp[r][c] == 2:
                             if c < COLS - 1 and temp[r][c+1] == 2:
-                                scrore += 2
+                                score += 2
 
                             if  r < ROWS - 1 and temp[r+1][c] == 2:
                                 score += 2  
