@@ -447,19 +447,18 @@ def main():
     global screen, fullscreen
     game = Game()
 
-    play_btn = Button("PLAY", 250, 200, 200, 60)
-    exit_btn = Button("EXIT", 250, 300, 200, 60)
+    play_btn = Button("PLAY", (WIDTH - 200)//2, 200, 200, 60)
+    exit_btn = Button("EXIT", (WIDTH - 200)//2, 300, 200, 60)
 
-
-    classic_btn = Button("CLASSIC", 250, 200, 200, 60)
-    timed_btn = Button("TIMED", 250, 300, 200, 60)
+    classic_btn = Button("CLASSIC", (WIDTH - 200)//2, 200, 200, 60)
+    timed_btn = Button("TIMED", (WIDTH - 200)//2, 300, 200, 60)
 
     pvp_btn = Button("VS PLAYER", 250, 200, 200, 60)
     cpu_btn = Button("VS CPU", 250, 300, 200, 60)
 
-    easy_btn = Button("EASY", 250, 200, 200, 60)
-    med_btn = Button("INTERMEDIATE", 250, 300, 200, 60)
-    hard_btn = Button("ADVANCED", 250, 400, 200, 60)
+    easy_btn = Button("EASY", (WIDTH - 200)//2, 200, 200, 60)
+    med_btn = Button("INTERMEDIATE", (WIDTH - 200)//2, 300, 200, 60)
+    hard_btn = Button("ADVANCED", (WIDTH - 200)//2, 400, 200, 60)
 
     back_btn = Button("BACK", 10, 10, 100, 40)
     play_again_btn = Button("PLAY AGAIN", 250, 200, 200, 60)
