@@ -36,7 +36,8 @@ class Button:
 
     def draw(self):
         hover = self.rect.collidepoint(pygame.mouse.get_pos())
-        pygame.draw.rect(screen, BLACK, self.rect, border_radius=8)
+        color = LIGHT_GRAY if hover else BLACK
+        pygame.draw.rect(screen, color, self.rect, border_radius=8)
         pygame.draw.rect(screen, WHITE, self.rect, 2, border_radius=8)
 
         label = font.render(self.text, True, WHITE)
@@ -141,6 +142,9 @@ class Game:
         self.turn_limit = 5
         self.confetti = []
 
+        self.back_rect = pygame.Rect(10, 10, 80, 30)
+
+
     def simulate_drop(self, grid, col, player): 
         temp = [row[:] for row in grid]
 
@@ -181,6 +185,7 @@ class Game:
         self.winner = None
         self.turn_start_time = time.time()
         self.confetti = []
+        self.cpu_timer = 0
 
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
@@ -189,6 +194,8 @@ class Game:
 
     def cpu_move(self):
         valid = [c for c in range(COLS) if not self.board.full(c)]
+        if not valid:
+            return 0
 
         if self.cpu_diff == "easy":
             return random.choice(valid)
@@ -385,7 +392,7 @@ class Game:
         color = RED if self.turn == 1 else YELLOW
         pygame.draw.polygon(screen, color, [(x+45, 80), (x+20, 50), (x+70, 50)])
 
-        self.back_rect = pygame.Rect(10, 10, 80, 30)
+        
         pygame.draw.rect(screen, GRAY, self.back_rect, border_radius=6)
         screen.blit(font.render("BACK", True, WHITE), (15, 12))
 
@@ -524,7 +531,7 @@ def main():
                                 game.selected_col = max(0, game.selected_col - 1)
                             elif e.key == pygame.K_RIGHT:
                                 game.selected_col = min(COLS - 1, game.selected_col + 1)
-                            elif e.key == pygame.K_RETURN:
+                            elif e.key == pygame.K_RETURN and not game.game_over:
                                 game.move(game.selected_col) 
 
                         if e.type == pygame.MOUSEBUTTONDOWN:
@@ -532,25 +539,21 @@ def main():
                                 game.state = "menu"
                             else:
                                 col = e.pos[0] // CELL_SIZE
-                                if 0 <= col < COLS:
+                                if 0 <= col < COLS and not game.game_over:
                                     game.move(col)                            
-
-                        if game.game_over:
-                
-                            game.state = "game_over" 
                 
                 elif game.state == "game_over":
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         if play_again_btn.clicked(e.pos):
-                            if play_again_btn.clicked(e.pos):
-                                game.reset()
-                                game.state = "game"
-                            elif menu_btn.clicked(e.pos):
-                                game.reset()
-                                game.state = "menu"
-                                game.mode = None
-                                game.vs_mode = None
-                                game.cpu_diff = None
+                            game.reset()
+                            game.state = "game"
+                            
+                        elif menu_btn.clicked(e.pos):
+                            game.reset()
+                            game.state = "menu"
+                            game.mode = None
+                            game.vs_mode = None
+                            game.cpu_diff = None
 
         screen.fill(BLUE)
 
@@ -586,7 +589,30 @@ def main():
         elif game.state == "game":
             game.update()
             game.draw_game()
+        
+            if game.game_over:
+                pygame.display.flip()
+                pygame.time.delay(1200)
+                game.state = "game_over"
 
+        elif game.state == "game_over":
+            screen.fill(BLACK)
+
+            if game.winner == "draw":
+                text = "DRAW"
+                color = WHITE
+            elif game.winner == 1:
+                text =  "PLAYER 1 WINS"
+                color = RED
+            else:
+                text = "PLAYER 2 WINS" if game.vs_mode == "pvp" else "CPU WINS"
+                color = YELLOW
+            title = big.render(text, True, color)
+            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120)))
+
+            play_again_btn.draw()
+            menu_btn.draw()  
+        
         pygame.display.flip()
 
     pygame.quit()
