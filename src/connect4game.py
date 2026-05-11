@@ -26,6 +26,8 @@ LIGHT_GRAY = (150, 150, 150)
 
 font = pygame.font.SysFont(None, 32)
 big = pygame.font.SysFont(None, 64)
+title_font = pygame.font.SysFont(None, 72)
+menu_font = pygame.font.SysFont(None, 48)
 
 class Button:
     def __init__(self, text, x, y, w, h):
