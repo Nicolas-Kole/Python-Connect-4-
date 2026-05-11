@@ -481,8 +481,12 @@ def main():
                                 game.move(game.selected_col) 
 
                         if e.type == pygame.MOUSEBUTTONDOWN:
-                            col = e.pos[0] // CELL_SIZE
-                            game.move(col)
+                            if game.back_rect.collidepoint(e.pos):
+                                game.state = "menu"
+                            else:
+                                col = e.pos[0] // CELL_SIZE
+                                if 0 <= col < COLS:
+                                    game.move(col)
 
                             if game.back_rect.collidepoint(e.pos):
                                 game.state = "menu"
