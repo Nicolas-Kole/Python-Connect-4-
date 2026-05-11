@@ -420,6 +420,22 @@ class Game:
             t = big.render(text, True, color)
             screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
 
+        for piece in self.confetti:
+            piece["y"] += piece["speed"]
+            piece["x"] += piece["drift"] 
+
+            confetti_surface = pygame.Surface(
+                (piece["w"], piece["h"]),
+               pygame.SRCALPHA
+            )
+
+            confetti_surface.fill((*piece["color"], 180))
+            screen.blit(
+                confetti_surface,
+                (piece["x"], piece["y"])
+            )
+        
+        
         return self.back_rect
 
 def main():
