@@ -417,7 +417,7 @@ class Game:
         back_text = font.render("BACK", True, WHITE)
         screen.blit(back_text, back_text.get_rect(center=self.back_rect.center))
 
-        if  self.mode == "timed" and not self.game_over:
+        if self.mode == "timed" and not self.game_over:
             remaining = max(0, int(self.turn_limit - (time.time() - self.turn_start_time)))
             timer_text = font.render(f"Time: {remaining}", True, WHITE)
             screen.blit(timer_text, timer_text.get_rect(center=(sw//2, offset_y - 80)))
@@ -579,6 +579,7 @@ def main():
 
                         if e.type == pygame.MOUSEBUTTONDOWN:
                             if game.back_rect.collidepoint(e.pos):
+                                game.reset()
                                 game.state = "menu"
                             else:
                                 sw = screen.get_width()
@@ -612,11 +613,7 @@ def main():
         title_y = 90
         button_start_y = 200
         button_gap = 90
-        board_x = (sw - (COLS * CELL_SIZE)) // 2
-        board_y = (sh - (ROWS * CELL_SIZE)) // 2
-
-
-
+        
         if game.state == "menu":
             title = title_font.render("CONNECT 4", True, WHITE)
             screen.blit(title, title.get_rect(center=(center_x, title_y)))
