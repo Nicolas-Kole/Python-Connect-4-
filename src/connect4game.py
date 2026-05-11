@@ -536,7 +536,21 @@ def main():
                                     game.move(col)                            
 
                         if game.game_over:
+                
                             game.state = "game_over" 
+                
+                elif game.state == "game_over":
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        if play_again_btn.clicked(e.pos):
+                            if play_again_btn.clicked(e.pos):
+                                game.reset()
+                                game.state = "game"
+                            elif menu_btn.clicked(e.pos):
+                                game.reset()
+                                game.state = "menu"
+                                game.mode = None
+                                game.vs_mode = None
+                                game.cpu_diff = None
 
         screen.fill(BLUE)
 
