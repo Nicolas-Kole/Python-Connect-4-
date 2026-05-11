@@ -140,6 +140,7 @@ class Game:
 
         self.turn_start_time = time.time()
         self.turn_limit = 5
+        self.confetti = []
 
     def simulate_drop(self, grid, col, player): 
         temp = [row[:] for row in grid]
