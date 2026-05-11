@@ -352,7 +352,7 @@ class Game:
 
 
 
-        self.cpu_timer = 0
+             self.cpu_timer = 0
 
 
     def update(self):
@@ -538,7 +538,6 @@ def main():
                                 if 0 <= col < COLS:
                                     game.move(col)
 
-                            if game.back_rect.collidepoint(e.pos):
                                 game.state = "menu"
                             
                     
@@ -559,11 +558,15 @@ def main():
             timed_btn.draw()
 
         elif game.state == "vs":
+            title = menu_font.render("SELECT VS MODE", True, WHITE)
+            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120))) 
             back_btn.draw()
             pvp_btn.draw()
             cpu_btn.draw()
 
         elif game.state == "cpu":
+            title = menu_font.render("SELECT CPU DIFFICULTY", True, WHITE)
+            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120)))
             back_btn.draw()
             easy_btn.draw()
             med_btn.draw()
