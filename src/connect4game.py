@@ -225,9 +225,9 @@ class Game:
                 if self.check_win_grid(temp, 1):
                     return col     
             
-            best_col = None
             best_score = -999
             best_cols = []
+            move_scores = []
 
             for col in valid:
                 temp = self.simulate_drop(self.board.grid, col, 2)
@@ -235,10 +235,8 @@ class Game:
                 score = 0
 
                 if col == 3:
-                    score += 3
-                elif col in [2,4]:
                     score += 2
-                else:
+                elif col in [2,4]:
                     score += 1
                 
                 for r in range(ROWS):
@@ -249,12 +247,40 @@ class Game:
                     for c in range(COLS):
                         if temp[r][c] == 2:
                             if c < COLS - 1 and temp[r][c+1] == 2:
-                                score += 2
+                                score += 3
+
+                            if c < COLS - 2:
+                                if temp[r][c + 1] == 2 and temp[r][c + 2] == 2:
+                                    score += 8
+
 
                             if  r < ROWS - 1 and temp[r+1][c] == 2:
-                                score += 2  
+                                score += 3  
 
-                score += random.randint(0, 2)
+                            if r < ROWS - 2:
+                                if temp[r + 1][c] == 2 and temp[r + 2][c] == 2:
+                                    score += 8
+
+                            if r < ROWS - 1 and c < COLS - 1:
+                                if temp[r + 1][c + 1] == 2:
+                                    score += 4  
+
+                            if r > 0 and c < COLS - 1:
+                                if temp[r - 1][c + 1] == 2:
+                                    score += 4
+
+                danger = 0
+
+                for player_col in range(COLS):
+                    if not self.board.full(player_col):
+                        future = self.simulate_drop(temp, player_col, 1)
+                        if self.check_win_grid(future, 1):
+                            danger += 15
+                score -= danger
+
+                score += random.randint(0, 3)
+
+                move_scores.append((score, col))
 
                 if score > best_score:
                     best_score = score
@@ -263,14 +289,17 @@ class Game:
                 elif score == best_score:
                     best_cols.append(col)
             
-            if c < COLS - 1 and temp[r][c+1] == 2:
-                   score += 2
-            if r < ROWS - 1 and temp[r+1][c] == 2:
-                    score += 2 
-            score += random.randint(0, 2)
             
-            return random.choice(best_cols)
-
+            move_scores.sort(key=lambda x: x[0], reverse=True)
+            top_moves = move_scores[:3]
+            
+            best_score = move_scores[0][0]
+            top_moves = []
+            for score, col in move_scores:
+                if score >= best_score - 3:
+                    top_moves.append((score, col))
+            
+            return random.choice(top_moves)[1]
 
     def move(self, col):
         if self.board.full(col) or self.game_over:
@@ -492,9 +521,3 @@ def main():
 if __name__ == "__main__":
      main()
 
-                
-
-
-
-    
-        
