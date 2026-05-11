@@ -36,7 +36,7 @@ class Button:
 
     def draw(self):
         hover = self.rect.collidepoint(pygame.mouse.get_pos())
-        pygame.draw.rect(screen, LIGHT_GRAY if hover else GRAY, self.rect, border_radius=8)
+        pygame.draw.rect(screen, BLACK, self.rect, border_radius=8)
         pygame.draw.rect(screen, WHITE, self.rect, 2, border_radius=8)
 
         label = font.render(self.text, True, WHITE)
