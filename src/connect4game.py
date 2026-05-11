@@ -103,10 +103,18 @@ class Board:
         return False
 
     def draw(self):
+        sw = screen.get_width()
+        sh = screen.get_height()
+        board_width = COLS * CELL_SIZE
+        board_height = ROWS * CELL_SIZE
+        offset_x = (sw - board_width) // 2
+        offset_y = (sh - board_height) // 2
+        
         for r in range(ROWS):
             for c in range(COLS):
-                x = c * CELL_SIZE
-                y = r * CELL_SIZE + 100
+
+                x = offset_x + c * CELL_SIZE
+                y = offset_y + r * CELL_SIZE
 
                 pygame.draw.rect(screen, BLUE, (x, y, CELL_SIZE, CELL_SIZE))
                 pygame.draw.circle(screen, BLACK, (x+45, y+45), 35)
@@ -118,8 +126,8 @@ class Board:
                     pygame.draw.circle(screen, YELLOW, (x+45, y+45), 32)
 
         for r, c in self.win_cells:
-            x = c * CELL_SIZE + 45
-            y = r * CELL_SIZE + 145
+            x = offset_x + c * CELL_SIZE + 45
+            y = offset_y + r * CELL_SIZE + 45
             pygame.draw.circle(screen, WHITE, (x, y), 40, 3)
 
 
@@ -345,8 +353,8 @@ class Game:
          for _ in range(120):
              
              piece = {
-                 "x": random.randint(0, WIDTH),
-                 "y": random.randint(-HEIGHT, 0),
+                 "x": random.randint(0, screen.get_width()),
+                 "y": random.randint(-screen.get_height(), 0),
                  "w": random.randint(6, 14),
                  "h": random.randint(10, 18),
                  "speed": random.uniform(2, 6),
@@ -391,19 +399,28 @@ class Game:
 
         self.board.draw()
 
-        x = self.selected_col * CELL_SIZE
+        sw = screen.get_width()
+        sh = screen.get_height()
+ 
+        board_width = COLS * CELL_SIZE
+        board_height = ROWS * CELL_SIZE
+        offset_x = (sw - board_width) // 2
+        offset_y = (sh - board_height) // 2
+        x = offset_x + self.selected_col * CELL_SIZE
+
+
         color = RED if self.turn == 1 else YELLOW
-        pygame.draw.polygon(screen, color, [(x+45, 80), (x+20, 50), (x+70, 50)])
+        pygame.draw.polygon(screen, color, [(x + 45, offset_y - 20), (x + 20, offset_y - 50), (x + 70, offset_y - 50)])
 
         
         pygame.draw.rect(screen, GRAY, self.back_rect, border_radius=6)
-        screen.blit(font.render("BACK", True, WHITE), (15, 12))
-
+        back_text = font.render("BACK", True, WHITE)
+        screen.blit(back_text, back_text.get_rect(center=self.back_rect.center))
 
         if  self.mode == "timed" and not self.game_over:
             remaining = max(0, int(self.turn_limit - (time.time() - self.turn_start_time)))
             timer_text = font.render(f"Time: {remaining}", True, WHITE)
-            screen.blit(timer_text, (WIDTH//2 - 50, 20))
+            screen.blit(timer_text, timer_text.get_rect(center=(sw//2, offset_y - 80)))
 
 
         if self.game_over:
@@ -422,7 +439,7 @@ class Game:
                 color = YELLOW
            
             t = big.render(text, True, color)
-            screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
+            screen.blit(t, t.get_rect(center=(sw//2, offset_y - 80)))
 
         for piece in self.confetti[:]:
             piece["y"] += piece["speed"]
@@ -438,7 +455,7 @@ class Game:
                 confetti_surface,
                 (piece["x"], piece["y"])
             )
-            if piece["y"] > HEIGHT:
+            if piece["y"] > screen.get_height():
                 self.confetti.remove(piece)
         
         return self.back_rect
@@ -447,26 +464,25 @@ def main():
     global screen, fullscreen
     game = Game()
 
-    BTN_W, BTN_H = 200, 60
-    cx = lambda: (WIDTH - BTN_W) // 2
+    BTN_W = 260
+    BTN_H = 60
 
-    play_btn = Button("PLAY", cx(), 200, BTN_W, BTN_H)
-    exit_btn = Button("EXIT", (WIDTH - 200)//2, 300, 200, 60)
+    play_btn = Button("PLAY", 0, 0, BTN_W, BTN_H)
+    exit_btn = Button("EXIT", 0, 0, BTN_W, BTN_H)
 
-    classic_btn = Button("CLASSIC", (WIDTH - 200)//2, 200, 200, 60)
-    timed_btn = Button("TIMED", (WIDTH - 200)//2, 300, 200, 60)
+    classic_btn = Button("CLASSIC", 0, 0, BTN_W, BTN_H)
+    timed_btn = Button("TIMED", 0, 0, BTN_W, BTN_H)
 
-    pvp_btn = Button("VS PLAYER", 250, 200, 200, 60)
-    cpu_btn = Button("VS CPU", 250, 300, 200, 60)
+    pvp_btn = Button("VS PLAYER", 0, 0, BTN_W, BTN_H)
+    cpu_btn = Button("VS CPU", 0, 0, BTN_W, BTN_H)
 
-    easy_btn = Button("EASY", (WIDTH - 200)//2, 200, 200, 60)
-    med_btn = Button("INTERMEDIATE", (WIDTH - 200)//2, 300, 200, 60)
-    hard_btn = Button("ADVANCED", (WIDTH - 200)//2, 400, 200, 60)
-
+    easy_btn = Button("EASY", 0, 0, BTN_W, BTN_H)
+    med_btn = Button("INTERMEDIATE", 0, 0, BTN_W, BTN_H)
+    hard_btn = Button("ADVANCED", 0, 0, BTN_W, BTN_H)
     back_btn = Button("BACK", 10, 10, 100, 40)
-    play_again_btn = Button("PLAY AGAIN", 250, 200, 200, 60)
-    menu_btn = Button("MAIN MENU", 250, 300, 200, 60)
-    exit_game_btn = Button("EXIT", 250, 400, 200, 60)
+    play_again_btn = Button("PLAY AGAIN", 0, 0, BTN_W, BTN_H)
+    menu_btn = Button("MAIN MENU", 0, 0, BTN_W, BTN_H)
+    exit_game_btn = Button("EXIT", 0, 0, BTN_W, BTN_H)
 
     running = True
 
@@ -565,7 +581,10 @@ def main():
                             if game.back_rect.collidepoint(e.pos):
                                 game.state = "menu"
                             else:
-                                col = e.pos[0] // CELL_SIZE
+                                sw = screen.get_width()
+                                board_width = COLS * CELL_SIZE
+                                offset_x = (sw - board_width) // 2                      
+                                col = (e.pos[0] - offset_x) // CELL_SIZE
                                 if 0 <= col < COLS and not game.game_over:
                                     game.move(col)                            
                 
@@ -586,31 +605,51 @@ def main():
                             running = False
 
         screen.fill(BLUE)
+        sw = screen.get_width()
+        sh = screen.get_height()
+
+        center_x = sw // 2
+        title_y = 90
+        button_start_y = 200
+        button_gap = 90
+        board_x = (sw - (COLS * CELL_SIZE)) // 2
+        board_y = (sh - (ROWS * CELL_SIZE)) // 2
+
+
 
         if game.state == "menu":
             title = title_font.render("CONNECT 4", True, WHITE)
-            screen.blit(title, title.get_rect(center=(WIDTH // 2, 100))) 
+            screen.blit(title, title.get_rect(center=(center_x, title_y)))
 
+            play_btn.rect.topleft = (center_x - BTN_W//2, button_start_y)
+            exit_btn.rect.topleft = (center_x - BTN_W//2, button_start_y + button_gap)
             play_btn.draw()
             exit_btn.draw()
 
         elif game.state == "mode":
             title = menu_font.render("SELECT GAME MODE", True, WHITE)
-            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120))) 
+            screen.blit(title, title.get_rect(center=(center_x, 110)))
+            classic_btn.rect.topleft = (center_x - BTN_W//2, button_start_y)
+            timed_btn.rect.topleft = (center_x - BTN_W//2, button_start_y + button_gap)
             back_btn.draw()
             classic_btn.draw()
             timed_btn.draw()
 
         elif game.state == "vs":
             title = menu_font.render("SELECT VS MODE", True, WHITE)
-            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120))) 
+            screen.blit(title, title.get_rect(center=(center_x, 110)))
+            pvp_btn.rect.topleft = (center_x - BTN_W//2, button_start_y)
+            cpu_btn.rect.topleft = (center_x - BTN_W//2, button_start_y + button_gap)
             back_btn.draw()
             pvp_btn.draw()
             cpu_btn.draw()
 
         elif game.state == "cpu":
             title = menu_font.render("SELECT CPU DIFFICULTY", True, WHITE)
-            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120)))
+            screen.blit(title, title.get_rect(center=(center_x, 110)))
+            easy_btn.rect.topleft = (center_x - BTN_W//2, button_start_y)
+            med_btn.rect.topleft = (center_x - BTN_W//2, button_start_y + button_gap)
+            hard_btn.rect.topleft = (center_x - BTN_W//2, button_start_y + button_gap * 2)
             back_btn.draw()
             easy_btn.draw()
             med_btn.draw()
@@ -643,8 +682,10 @@ def main():
                 text = "PLAYER 2 WINS" if game.vs_mode == "pvp" else "CPU WINS"
                 color = YELLOW
             title = big.render(text, True, color)
-            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120)))
-
+            screen.blit(title, title.get_rect(center=(center_x, 120)))
+            play_again_btn.rect.topleft = (center_x - BTN_W//2, button_start_y)
+            menu_btn.rect.topleft = (center_x - BTN_W//2, button_start_y + button_gap)
+            exit_game_btn.rect.topleft = (center_x - BTN_W//2, button_start_y + button_gap * 2)
             play_again_btn.draw()
             menu_btn.draw()
             exit_game_btn.draw()
