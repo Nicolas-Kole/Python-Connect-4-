@@ -135,6 +135,7 @@ class Game:
 
         self.game_over = False
         self.winner = None
+        self.cpu_timer = 0
 
         self.turn_start_time = time.time()
         self.turn_limit = 5
@@ -346,12 +347,6 @@ class Game:
              self.confetti.append(piece)
 
 
-          
-
-
-
-             self.cpu_timer = 0
-
 
     def update(self):
         if self.vs_mode == "cpu" and self.turn == 2 and not self.game_over:
@@ -418,7 +413,7 @@ class Game:
             t = big.render(text, True, color)
             screen.blit(t, t.get_rect(center=(WIDTH//2, 40)))
 
-        for piece in self.confetti:
+        for piece in self.confetti[:]:
             piece["y"] += piece["speed"]
             piece["x"] += piece["drift"] 
 
@@ -432,7 +427,8 @@ class Game:
                 confetti_surface,
                 (piece["x"], piece["y"])
             )
-        
+            if piece["y"] > HEIGHT:
+                self.confetti.remove(piece)
         
         return self.back_rect
 
