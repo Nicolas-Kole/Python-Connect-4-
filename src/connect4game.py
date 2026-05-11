@@ -180,6 +180,7 @@ class Game:
         self.game_over = False
         self.winner = None
         self.turn_start_time = time.time()
+        self.confetti = []
 
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
