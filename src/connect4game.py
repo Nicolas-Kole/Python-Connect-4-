@@ -141,7 +141,7 @@ class Game:
         self.turn_start_time = time.time()
         self.turn_limit = 5
         self.confetti = []
-
+        self.win_time = None
         self.back_rect = pygame.Rect(10, 10, 80, 30)
 
 
@@ -186,6 +186,7 @@ class Game:
         self.turn_start_time = time.time()
         self.confetti = []
         self.cpu_timer = 0
+        self.win_time = None
 
     def switch_turn(self):
         self.turn = 2 if self.turn == 1 else 1
@@ -322,6 +323,7 @@ class Game:
             self.game_over = True
             self.winner = self.turn
             self.create_confetti()
+            self.win_time = time.time()
             return
 
         if self.board.is_draw():
@@ -591,9 +593,14 @@ def main():
             game.draw_game()
         
             if game.game_over:
-                pygame.display.flip()
-                pygame.time.delay(1200)
-                game.state = "game_over"
+                confetti_done = len(game.confetti) == 0
+                enough_time = (
+                    game.win_time is not None and
+                    time.time() - game.win_time > 5
+                )
+
+                if confetti_done or enough_time:
+                    game.state = "game_over" 
 
         elif game.state == "game_over":
             screen.fill(BLACK)
