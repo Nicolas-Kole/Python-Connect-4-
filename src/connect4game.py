@@ -314,6 +314,7 @@ class Game:
         if self.board.check_win(self.turn):
             self.game_over = True
             self.winner = self.turn
+            self.create_confetti()
             return
 
         if self.board.is_draw():
@@ -321,6 +322,36 @@ class Game:
             self.winner = "draw"
 
         self.switch_turn()
+
+    def create_confetti(self):
+         self.confetti = []
+         if self.winner == 1:
+            color = RED
+         elif self.winner == 2:
+             color = YELLOW
+         else:
+            return
+         
+         for _ in range(120):
+             
+             piece = {
+                 "x": random.randint(0, WIDTH),
+                 "y": random.randint(-HEIGHT, 0),
+                 "w": random.randint(6, 14),
+                 "h": random.randint(10, 18),
+                 "speed": random.uniform(2, 6),
+                 "drift": random.uniform(-2, 2),
+                 "rotation": random.randint(0, 360),
+                 "color": color
+
+             }
+             self.confetti.append(piece)
+
+
+          
+
+
+
         self.cpu_timer = 0
 
 
