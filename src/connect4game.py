@@ -447,7 +447,10 @@ def main():
     global screen, fullscreen
     game = Game()
 
-    play_btn = Button("PLAY", (WIDTH - 200)//2, 200, 200, 60)
+    BTN_W, BTN_H = 200, 60
+    cx = lambda: (WIDTH - BTN_W) // 2
+
+    play_btn = Button("PLAY", cx(), 200, BTN_W, BTN_H)
     exit_btn = Button("EXIT", (WIDTH - 200)//2, 300, 200, 60)
 
     classic_btn = Button("CLASSIC", (WIDTH - 200)//2, 200, 200, 60)
