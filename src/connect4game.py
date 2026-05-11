@@ -11,7 +11,8 @@ HEIGHT = (ROWS + 2) * CELL_SIZE
 
 WIDTH = COLS * CELL_SIZE
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+fullscreen = False
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Connect 4")
 
 clock = pygame.time.Clock()
@@ -443,6 +444,7 @@ class Game:
         return self.back_rect
 
 def main():
+    global screen, fullscreen
     game = Game()
 
     play_btn = Button("PLAY", 250, 200, 200, 60)
@@ -472,6 +474,26 @@ def main():
         for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     running = False
+                
+                if e.type == pygame.KEYDOWN:
+                    if e.key == pygame.K_F11:
+                        fullscreen =  not fullscreen
+                        if fullscreen:
+                            screen = pygame.display.set_mode(
+                                (0,0),
+                                pygame.FULLSCREEN
+                            )
+                        else:
+                            screen = pygame.display.set_mode(
+                                (WIDTH, HEIGHT),
+                                pygame.RESIZABLE
+                            )
+
+                if e.type == pygame.VIDEORESIZE and not fullscreen:
+                    screen = pygame.display.set_mode(
+                        (e.w, e.h),
+                        pygame.RESIZABLE
+                    )
 
                 if game.state == "menu":
                     if e.type == pygame.MOUSEBUTTONDOWN:
