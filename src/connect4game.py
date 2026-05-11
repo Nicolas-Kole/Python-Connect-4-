@@ -136,8 +136,6 @@ class Game:
         self.game_over = False
         self.winner = None
 
-        self.cpu_timer = 0
-
         self.turn_start_time = time.time()
         self.turn_limit = 5
         self.confetti = []
@@ -536,10 +534,7 @@ def main():
                             else:
                                 col = e.pos[0] // CELL_SIZE
                                 if 0 <= col < COLS:
-                                    game.move(col)
-
-                                game.state = "menu"
-                            
+                                    game.move(col)                            
                     
         screen.fill(BLUE)
 
