@@ -552,6 +552,8 @@ def main():
             exit_btn.draw()
 
         elif game.state == "mode":
+            title = menu_font.render("SELECT GAME MODE", True, WHITE)
+            screen.blit(title, title.get_rect(center=(WIDTH // 2, 120))) 
             back_btn.draw()
             classic_btn.draw()
             timed_btn.draw()
