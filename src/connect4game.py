@@ -542,7 +542,7 @@ def main():
                                 game.state = "menu"
                             
                     
-        screen.fill(BLACK)
+        screen.fill(BLUE)
 
         if game.state == "menu":
             play_btn.draw()
