@@ -545,6 +545,9 @@ def main():
         screen.fill(BLUE)
 
         if game.state == "menu":
+            title = title_font.render("CONNECT 4", True, WHITE)
+            screen.blit(title, title.get_rect(center=(WIDTH // 2, 100))) 
+
             play_btn.draw()
             exit_btn.draw()
 
