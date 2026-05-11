@@ -462,6 +462,7 @@ def main():
     back_btn = Button("BACK", 10, 10, 100, 40)
     play_again_btn = Button("PLAY AGAIN", 250, 200, 200, 60)
     menu_btn = Button("MAIN MENU", 250, 300, 200, 60)
+    exit_game_btn = Button("EXIT", 250, 400, 200, 60)
 
     running = True
 
@@ -556,6 +557,9 @@ def main():
                             game.mode = None
                             game.vs_mode = None
                             game.cpu_diff = None
+                        
+                        elif exit_game_btn.clicked(e.pos):
+                            running = False
 
         screen.fill(BLUE)
 
@@ -618,7 +622,9 @@ def main():
             screen.blit(title, title.get_rect(center=(WIDTH // 2, 120)))
 
             play_again_btn.draw()
-            menu_btn.draw()  
+            menu_btn.draw()
+            exit_game_btn.draw()
+
         
         pygame.display.flip()
 
