@@ -451,6 +451,8 @@ def main():
     hard_btn = Button("ADVANCED", 250, 400, 200, 60)
 
     back_btn = Button("BACK", 10, 10, 100, 40)
+    play_again_btn = Button("PLAY AGAIN", 250, 200, 200, 60)
+    menu_btn = Button("MAIN MENU", 250, 300, 200, 60)
 
     running = True
 
@@ -532,7 +534,10 @@ def main():
                                 col = e.pos[0] // CELL_SIZE
                                 if 0 <= col < COLS:
                                     game.move(col)                            
-                    
+
+                        if game.game_over:
+                            game.state = "game_over" 
+
         screen.fill(BLUE)
 
         if game.state == "menu":
