@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+import asyncio
 
 pygame.init()
 
@@ -460,7 +461,7 @@ class Game:
         
         return self.back_rect
 
-def main():
+async def main():
     global screen, fullscreen
     game = Game()
 
@@ -690,8 +691,10 @@ def main():
         
         pygame.display.flip()
 
+        await asyncio.sleep(0)
+
     pygame.quit()
 
 if __name__ == "__main__":
-     main()
+     asyncio.run(main())
 
